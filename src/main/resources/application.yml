@@ -2,7 +2,7 @@ spring:
   application:
     name: orbit
   profiles:
-    active: test
+    active: dev
   datasource:
     url: ${DB_URL}
     username: ${DB_USER}
