@@ -74,6 +74,18 @@ public class Quest extends BaseTimeEntity {
     this.member.validateId(memberId);
   }
 
+  public int compareWithId(Long questId) {
+    if (this.questId.equals(questId)) {
+      return 0;
+    }
+
+    if (this.questId > questId) {
+      return 1;
+    }
+
+    return -1;
+  }
+
   public void update(String title, Boolean isComplete, LocalDate deadline) {
     if (title != null && !title.equals(this.title)) {
       this.title = title;
@@ -84,5 +96,9 @@ public class Quest extends BaseTimeEntity {
     if (deadline != null && !deadline.equals(this.deadline)) {
       this.deadline = deadline;
     }
+  }
+
+  public void updateSequence(int sequence) {
+    this.sequence = sequence;
   }
 }

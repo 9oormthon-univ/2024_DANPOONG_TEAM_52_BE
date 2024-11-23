@@ -1,4 +1,6 @@
-package com.groom.orbit.goal.controller;
+package com.groom.orbit.goal.controller.command;
+
+import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.groom.orbit.common.annotation.AuthMember;
 import com.groom.orbit.common.dto.CommonSuccessDto;
 import com.groom.orbit.common.dto.ResponseDto;
-import com.groom.orbit.goal.app.QuestCommandService;
-import com.groom.orbit.goal.app.dto.CreateQuestRequestDto;
-import com.groom.orbit.goal.app.dto.UpdateQuestRequestDto;
+import com.groom.orbit.goal.app.command.QuestCommandService;
+import com.groom.orbit.goal.app.command.QuestUpdateService;
+import com.groom.orbit.goal.app.dto.request.CreateQuestRequestDto;
+import com.groom.orbit.goal.app.dto.request.UpdateQuestRequestDto;
+import com.groom.orbit.goal.app.dto.request.UpdateQuestSequenceRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class QuestCommandController {
 
   private final QuestCommandService questCommandService;
+  private final QuestUpdateService questUpdateService;
 
   @PutMapping
   public ResponseDto<CommonSuccessDto> createQuest(
@@ -43,6 +48,12 @@ public class QuestCommandController {
       @AuthMember Long memberId,
       @PathVariable("quest_id") Long questId,
       @RequestBody UpdateQuestRequestDto dto) {
-    return ResponseDto.ok(questCommandService.updateQuest(memberId, questId, dto));
+    return ResponseDto.ok(questUpdateService.updateQuest(memberId, questId, dto));
+  }
+
+  @PatchMapping
+  public ResponseDto<CommonSuccessDto> updateQuestsSequence(
+      @AuthMember Long memberId, @RequestBody List<UpdateQuestSequenceRequestDto> dtos) {
+    return ResponseDto.ok(questUpdateService.updateQuestSequence(memberId, dtos));
   }
 }

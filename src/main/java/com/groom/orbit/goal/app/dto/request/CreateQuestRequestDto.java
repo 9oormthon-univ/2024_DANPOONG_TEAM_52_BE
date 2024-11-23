@@ -1,4 +1,4 @@
-package com.groom.orbit.goal.app.dto;
+package com.groom.orbit.goal.app.dto.request;
 
 import java.time.LocalDate;
 

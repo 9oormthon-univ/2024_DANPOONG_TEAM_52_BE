@@ -2,6 +2,8 @@ package com.groom.orbit.goal.dao.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +27,8 @@ public class Goal {
   private String title;
 
   @Column(nullable = false, length = 10)
-  private String category;
+  @Enumerated(EnumType.STRING)
+  private GoalCategory category;
 
   @ColumnDefault("0")
   @Column(nullable = false)
@@ -34,7 +37,7 @@ public class Goal {
   public static Goal create(String title, String category) {
     Goal goal = new Goal();
     goal.title = title;
-    goal.category = category;
+    goal.category = GoalCategory.from(category);
 
     return goal;
   }

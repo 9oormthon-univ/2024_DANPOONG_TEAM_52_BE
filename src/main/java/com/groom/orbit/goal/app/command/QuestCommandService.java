@@ -1,4 +1,4 @@
-package com.groom.orbit.goal.app;
+package com.groom.orbit.goal.app.command;
 
 import java.util.List;
 
@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.groom.orbit.common.dto.CommonSuccessDto;
 import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
-import com.groom.orbit.goal.app.dto.CreateQuestRequestDto;
-import com.groom.orbit.goal.app.dto.UpdateQuestRequestDto;
+import com.groom.orbit.goal.app.MemberGoalService;
+import com.groom.orbit.goal.app.dto.request.CreateQuestRequestDto;
+import com.groom.orbit.goal.app.query.QuestQueryService;
 import com.groom.orbit.goal.dao.QuestRepository;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
 import com.groom.orbit.goal.dao.entity.Quest;
-import com.groom.orbit.member.app.MemberQueryService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,6 @@ public class QuestCommandService {
   private final MemberGoalService memberGoalService;
   private final QuestQueryService questQueryService;
   private final QuestRepository questRepository;
-  private final MemberQueryService memberQueryService;
 
   /** TODO join 최적화 */
   public CommonSuccessDto createQuest(Long memberId, CreateQuestRequestDto dto) {
@@ -52,15 +51,6 @@ public class QuestCommandService {
     questRepository.delete(removeQuest);
 
     return CommonSuccessDto.fromEntity(true);
-  }
-
-  public CommonSuccessDto updateQuest(Long memberId, Long questId, UpdateQuestRequestDto dto) {
-    Quest quest = questQueryService.findQuest(questId);
-    quest.validateMember(memberId);
-
-    quest.update(dto.title(), dto.isComplete(), dto.deadline());
-
-    return new CommonSuccessDto(true);
   }
 
   private static void updateSequence(List<Quest> quests, Integer removeSequence) {

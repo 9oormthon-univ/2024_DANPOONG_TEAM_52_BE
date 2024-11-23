@@ -48,4 +48,8 @@ public class MemberGoal {
 
     return memberGoal;
   }
+
+  public String getTitle() {
+    return this.goal.getTitle();
+  }
 }

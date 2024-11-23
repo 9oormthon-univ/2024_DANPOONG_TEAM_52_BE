@@ -1,4 +1,4 @@
-package com.groom.orbit.goal.app;
+package com.groom.orbit.goal.app.query;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
-import com.groom.orbit.goal.app.dto.QuestInfoResponseDto;
+import com.groom.orbit.goal.app.dto.response.QuestInfoResponseDto;
 import com.groom.orbit.goal.dao.QuestRepository;
 import com.groom.orbit.goal.dao.entity.Quest;
 
@@ -31,7 +31,7 @@ public class QuestQueryService {
   }
 
   public List<QuestInfoResponseDto> findQuestsByGoalId(Long memberId, Long goalId) {
-    List<Quest> quests = questRepository.findByMemberIdAndGoalId(memberId, goalId);
+    List<Quest> quests = findQuestsByMemberAndGoal(memberId, goalId);
 
     return quests.stream()
         .map(
@@ -43,5 +43,17 @@ public class QuestQueryService {
 
   public int getQuestCountsByGoalId(Long goalId) {
     return questRepository.getCountByGoalId(goalId);
+  }
+
+  public List<Quest> findByQuestIdIn(List<Long> questIds) {
+    return questRepository.findByQuestIdIn(questIds);
+  }
+
+  public long getTotalQuestCount(Long goalId) {
+    return questRepository.countByGoal_GoalId(goalId);
+  }
+
+  public long getFinishQuestCount(Long goalId) {
+    return questRepository.countCompletedByGoal_GoalId(goalId);
   }
 }
