@@ -12,8 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
 import com.groom.orbit.job.dao.jpa.entity.InterestJob;
@@ -42,9 +40,8 @@ public class Member {
   @Column(name = "nickname", length = 100)
   private String nickname;
 
-  @ColumnDefault("''")
   @Column(name = "image_url", length = 500)
-  private String imageUrl = "";
+  private String imageUrl;
 
   @Column(name = "known_prompt", length = 1000)
   private String knownPrompt = "";
@@ -56,7 +53,7 @@ public class Member {
   private Boolean isNotification = false;
 
   @Column(name = "is_profile")
-  private Boolean isProfile = false;
+  private Boolean isResume = false;
 
   @Setter
   @Column(name = "ai_feedback", length = 50000, columnDefinition = "TEXT")
@@ -77,7 +74,7 @@ public class Member {
     this.knownPrompt = requestDto.knownPrompt();
     this.helpPrompt = requestDto.helpPrompt();
     this.isNotification = requestDto.isNotification();
-    this.isProfile = requestDto.isProfile();
+    this.isResume = requestDto.isProfile();
   }
 
   public void validateId(Long memberId) {

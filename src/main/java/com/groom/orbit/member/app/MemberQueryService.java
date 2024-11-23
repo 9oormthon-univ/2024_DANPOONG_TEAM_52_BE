@@ -32,10 +32,7 @@ public class MemberQueryService {
             .findById(memberId)
             .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMBER));
 
-    return GetMemberProfileResponseDto.builder()
-        .imageUrl(member.getImageUrl())
-        .nickname(member.getNickname())
-        .build();
+    return GetMemberProfileResponseDto.fromMember(member);
   }
 
   public GetMemberAiFeedbackResponseDto getMemberAiFeedback(Long memberId) {
