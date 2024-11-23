@@ -3,9 +3,9 @@ name: Orbit dev CI/CD
 on:
   pull_request:
     branches:
-      - test
+      - dev
     types:
-      - opened
+      - closed
   workflow_dispatch: # (2).수동 실행도 가능하도록 #
 
 env:
@@ -25,17 +25,6 @@ jobs:
         with:
           java-version: 21 # (5).자바 설치
           distribution: 'adopt'
-
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
-        shell: bash
-
-      - name: Build Docker DB
-        run: ./gradlew bootRun
-        shell: bash
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
