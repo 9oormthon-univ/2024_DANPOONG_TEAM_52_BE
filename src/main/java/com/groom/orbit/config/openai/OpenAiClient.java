@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
     url = "https://api.openai.com/v1/chat/completions",
     configuration = OpenAiClientConfig.class)
 public interface OpenAiClient {
-  @PostMapping
+  @PostMapping()
   AiFeedbackResponseDto createAiFeedback(@RequestBody AiFeedbackRequestDto requestDto);
+
+  @PostMapping()
+  GoalRecommendResponseDto createGoalRecommend(@RequestBody GoalRecommendRequestDto requestDto);
+
+  @PostMapping()
+  QuestRecommendResponseDto createQuestRecommend(@RequestBody QuestRecommendRequestDto requestDto);
 }

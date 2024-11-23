@@ -1,6 +1,6 @@
 package com.groom.orbit.config.openai;
 
-public class Prompt {
+public class AiFeedbackPrompt {
   private static final String SYSTEM_PROMPT =
       "내 관심 직무 분야는 {job}인데 이에 관한 내 활동사항들이야. 이 항목 대해 피드백을 해줘";
   private static final String USER_PROMPT =

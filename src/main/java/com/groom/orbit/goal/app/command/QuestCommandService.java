@@ -8,12 +8,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.groom.orbit.common.dto.CommonSuccessDto;
 import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
+import com.groom.orbit.config.openai.OpenAiClient;
+import com.groom.orbit.config.openai.QuestRecommendRequestDto;
+import com.groom.orbit.config.openai.QuestRecommendResponseDto;
 import com.groom.orbit.goal.app.MemberGoalService;
 import com.groom.orbit.goal.app.dto.request.CreateQuestRequestDto;
+import com.groom.orbit.goal.app.dto.response.RecommendQuestResponseDto;
+import com.groom.orbit.goal.app.query.GoalQueryService;
 import com.groom.orbit.goal.app.query.QuestQueryService;
 import com.groom.orbit.goal.dao.QuestRepository;
+import com.groom.orbit.goal.dao.entity.Goal;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
 import com.groom.orbit.goal.dao.entity.Quest;
+import com.groom.orbit.member.app.MemberQueryService;
+import com.groom.orbit.member.dao.jpa.entity.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +33,9 @@ public class QuestCommandService {
   private final MemberGoalService memberGoalService;
   private final QuestQueryService questQueryService;
   private final QuestRepository questRepository;
+  private final GoalQueryService goalQueryService;
+  private final MemberQueryService memberQueryService;
+  private final OpenAiClient openAiClient;
 
   /** TODO join 최적화 */
   public CommonSuccessDto createQuest(Long memberId, CreateQuestRequestDto dto) {
@@ -59,5 +70,25 @@ public class QuestCommandService {
         quest.decreaseSequence();
       }
     }
+  }
+
+  public RecommendQuestResponseDto recommendQuest(Long memberId, Long goalId) {
+
+    Goal goal = goalQueryService.findGoal(goalId);
+    Member member = memberQueryService.findMember(memberId);
+    MemberGoal memberGoal = memberGoalService.findMemberGoal(memberId, goalId);
+
+    List<String> quest = questQueryService.getRecommendedQuests(memberGoal.getMemberGoalId());
+
+    String questList = String.join(",", quest);
+
+    QuestRecommendResponseDto questRecommendResponseDto =
+        openAiClient.createQuestRecommend(
+            QuestRecommendRequestDto.from(
+                member.getInterestJobs().get(0).getJob().getName(), goal.getTitle(), questList));
+
+    String title = questRecommendResponseDto.getAnswer();
+
+    return RecommendQuestResponseDto.from(title);
   }
 }

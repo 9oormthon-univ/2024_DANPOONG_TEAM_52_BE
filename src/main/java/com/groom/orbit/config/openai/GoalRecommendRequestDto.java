@@ -11,13 +11,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-public class AiFeedbackRequestDto {
+public class GoalRecommendRequestDto {
 
   private String model = "gpt-4o-mini";
 
   private List<Message> messages;
 
-  public AiFeedbackRequestDto(List<Message> messages) {
+  public GoalRecommendRequestDto(List<Message> messages) {
     this.messages = messages;
   }
 
@@ -56,37 +56,21 @@ public class AiFeedbackRequestDto {
     @JsonValue private final String value;
   }
 
-  public static AiFeedbackRequestDto from(
-      String job,
-      String academy,
-      String career,
-      String qualification,
-      String experience,
-      String etc) {
-    return new AiFeedbackRequestDto(
-        createMessages(job, academy, career, qualification, experience, etc));
+  public static GoalRecommendRequestDto from(String job, String goalList) {
+    return new GoalRecommendRequestDto(createMessage(job, goalList));
   }
 
-  private static List<Message> createMessages(
-      String job,
-      String academy,
-      String career,
-      String qualification,
-      String experience,
-      String etc) {
+  private static List<Message> createMessage(String job, String goalList) {
     return List.of(
         new Message(Role.SYSTEM, createSystemContents(job)),
-        new Message(Role.USER, createContents(academy, career, qualification, experience, etc)));
+        new Message(Role.USER, createContents(goalList)));
   }
 
   private static List<Content> createSystemContents(String job) {
-    return List.of(Content.textContent(AiFeedbackPrompt.getSystemPrompt(job)));
+    return List.of(Content.textContent(GoalRecommendPrompt.getSystemPrompt(job)));
   }
 
-  private static List<Content> createContents(
-      String academy, String career, String qualification, String experience, String etc) {
-    return List.of(
-        Content.textContent(
-            AiFeedbackPrompt.getUserPrompt(academy, career, qualification, experience, etc)));
+  private static List<Content> createContents(String goalList) {
+    return List.of(Content.textContent(GoalRecommendPrompt.getUserPrompt(goalList)));
   }
 }

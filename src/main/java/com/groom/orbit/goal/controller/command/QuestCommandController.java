@@ -3,6 +3,7 @@ package com.groom.orbit.goal.controller.command;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import com.groom.orbit.goal.app.command.QuestUpdateService;
 import com.groom.orbit.goal.app.dto.request.CreateQuestRequestDto;
 import com.groom.orbit.goal.app.dto.request.UpdateQuestRequestDto;
 import com.groom.orbit.goal.app.dto.request.UpdateQuestSequenceRequestDto;
+import com.groom.orbit.goal.app.dto.response.RecommendQuestResponseDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,5 +57,11 @@ public class QuestCommandController {
   public ResponseDto<CommonSuccessDto> updateQuestsSequence(
       @AuthMember Long memberId, @RequestBody List<UpdateQuestSequenceRequestDto> dtos) {
     return ResponseDto.ok(questUpdateService.updateQuestSequence(memberId, dtos));
+  }
+
+  @GetMapping("/recommend/{memberGoalId}")
+  public ResponseDto<RecommendQuestResponseDto> recommendQuest(
+      @AuthMember Long memberId, @PathVariable Long memberGoalId) {
+    return ResponseDto.ok(questCommandService.recommendQuest(memberId, memberGoalId));
   }
 }

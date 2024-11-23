@@ -11,13 +11,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-public class AiFeedbackRequestDto {
+public class QuestRecommendRequestDto {
 
   private String model = "gpt-4o-mini";
 
   private List<Message> messages;
 
-  public AiFeedbackRequestDto(List<Message> messages) {
+  public QuestRecommendRequestDto(List<Message> messages) {
     this.messages = messages;
   }
 
@@ -56,37 +56,21 @@ public class AiFeedbackRequestDto {
     @JsonValue private final String value;
   }
 
-  public static AiFeedbackRequestDto from(
-      String job,
-      String academy,
-      String career,
-      String qualification,
-      String experience,
-      String etc) {
-    return new AiFeedbackRequestDto(
-        createMessages(job, academy, career, qualification, experience, etc));
+  public static QuestRecommendRequestDto from(String job, String goal, String questList) {
+    return new QuestRecommendRequestDto(createMessage(job, goal, questList));
   }
 
-  private static List<Message> createMessages(
-      String job,
-      String academy,
-      String career,
-      String qualification,
-      String experience,
-      String etc) {
+  private static List<Message> createMessage(String job, String goal, String questList) {
     return List.of(
-        new Message(Role.SYSTEM, createSystemContents(job)),
-        new Message(Role.USER, createContents(academy, career, qualification, experience, etc)));
+        new Message(Role.SYSTEM, createSystemContents(job, goal)),
+        new Message(Role.USER, createContents(questList)));
   }
 
-  private static List<Content> createSystemContents(String job) {
-    return List.of(Content.textContent(AiFeedbackPrompt.getSystemPrompt(job)));
+  private static List<Content> createSystemContents(String job, String goal) {
+    return List.of(Content.textContent(QuestRecommendPrompt.getSystemPrompt(job, goal)));
   }
 
-  private static List<Content> createContents(
-      String academy, String career, String qualification, String experience, String etc) {
-    return List.of(
-        Content.textContent(
-            AiFeedbackPrompt.getUserPrompt(academy, career, qualification, experience, etc)));
+  private static List<Content> createContents(String questList) {
+    return List.of(Content.textContent(QuestRecommendPrompt.getUserPrompt(questList)));
   }
 }
