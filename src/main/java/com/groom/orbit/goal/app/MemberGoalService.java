@@ -1,5 +1,6 @@
 package com.groom.orbit.goal.app;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,16 +12,13 @@ import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
 import com.groom.orbit.goal.app.command.GoalCommandService;
 import com.groom.orbit.goal.app.dto.request.MemberGoalRequestDto;
-import com.groom.orbit.goal.app.dto.response.GetCompletedGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
-import com.groom.orbit.goal.app.dto.response.GetOnGoingGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
 import com.groom.orbit.goal.app.query.GoalQueryService;
 import com.groom.orbit.goal.app.query.QuestQueryService;
 import com.groom.orbit.goal.dao.MemberGoalRepository;
 import com.groom.orbit.goal.dao.entity.Goal;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
-import com.groom.orbit.goal.dao.entity.Quest;
 import com.groom.orbit.member.app.MemberQueryService;
 import com.groom.orbit.member.dao.jpa.entity.Member;
 
@@ -43,34 +41,6 @@ public class MemberGoalService {
     return memberGoalRepository
         .findById(memberId, goalId)
         .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_GOAL));
-  }
-
-  public List<GetOnGoingGoalResponseDto> findOnGoingGoals(Long memberId) {
-    List<MemberGoal> memberGoals = memberGoalRepository.findByIsComplete(memberId, false);
-
-    return memberGoals.stream()
-        .map(
-            memberGoal -> {
-              Long goalId = memberGoal.getGoal().getGoalId();
-              long totalQuestCount = questQueryService.getTotalQuestCount(goalId);
-              long finishQuestCount = questQueryService.getFinishQuestCount(goalId);
-
-              return new GetOnGoingGoalResponseDto(
-                  goalId, memberGoal.getTitle(), totalQuestCount, finishQuestCount);
-            })
-        .toList();
-  }
-
-  public List<GetCompletedGoalResponseDto> findCompletedGoals(Long memberId) {
-    List<MemberGoal> memberGoals = memberGoalRepository.findByIsComplete(memberId, true);
-
-    return memberGoals.stream()
-        .map(
-            memberGoal ->
-                new GetCompletedGoalResponseDto(
-                    memberGoal.getTitle(),
-                    memberGoal.getQuests().stream().map(Quest::getTitle).toList()))
-        .toList();
   }
 
   public CommonSuccessDto deleteGoal(Long memberId, Long goalId) {
@@ -122,9 +92,11 @@ public class MemberGoalService {
 
     return memberGoals.stream()
         .map(
-            mg ->
+            memberGoal ->
                 new GetMemberGoalResponseDto(
-                    mg.getMemberGoalId(), mg.getTitle(), getGetQuestResponseDtos(mg)))
+                    memberGoal.getMemberGoalId(),
+                    memberGoal.getTitle(),
+                    getGetQuestResponseDtos(memberGoal)))
         .toList();
   }
 
@@ -132,5 +104,26 @@ public class MemberGoalService {
     return mg.getQuests().stream()
         .map(q -> new GetQuestResponseDto(q.getQuestId(), q.getTitle(), q.getIsComplete()))
         .toList();
+  }
+
+  public List<String> findMemberGoalNotCompleted(Long memberId) {
+    List<MemberGoal> memberGoals = memberGoalRepository.findNotCompletedByMemberId(memberId);
+    List<Long> startIds = getStartIds(memberGoals);
+
+    if (!startIds.isEmpty()) {
+      return getGoalTitle(startIds);
+    }
+
+    return new ArrayList<>();
+  }
+
+  private static List<Long> getStartIds(List<MemberGoal> memberGoals) {
+    return memberGoals.stream().map(mg -> mg.getGoal().getGoalId()).toList();
+  }
+
+  private List<String> getGoalTitle(List<Long> startIds) {
+    List<Goal> goals = goalQueryService.findNotIn(startIds);
+
+    return goals.stream().map(Goal::getTitle).toList();
   }
 }

@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.groom.orbit.common.annotation.AuthMember;
 import com.groom.orbit.common.dto.ResponseDto;
 import com.groom.orbit.goal.app.MemberGoalService;
-import com.groom.orbit.goal.app.dto.response.GetCompletedGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
-import com.groom.orbit.goal.app.dto.response.GetOnGoingGoalResponseDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,14 +27,8 @@ public class MemberGoalQueryController {
     return ResponseDto.ok(memberGoalService.findGoals(memberId, isComplete));
   }
 
-  @GetMapping("/on-going")
-  public ResponseDto<List<GetOnGoingGoalResponseDto>> getOnGoingGoals(@AuthMember Long memberId) {
-    return ResponseDto.ok(memberGoalService.findOnGoingGoals(memberId));
-  }
-
-  @GetMapping("/completed")
-  public ResponseDto<List<GetCompletedGoalResponseDto>> getCompletedGoals(
-      @AuthMember Long memberId) {
-    return ResponseDto.ok(memberGoalService.findCompletedGoals(memberId));
+  @GetMapping("/recommend")
+  public ResponseDto<?> getRecommendedGoals(@AuthMember Long memberId) {
+    return ResponseDto.ok(memberGoalService.findMemberGoalNotCompleted(memberId));
   }
 }

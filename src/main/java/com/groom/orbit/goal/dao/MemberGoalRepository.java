@@ -41,4 +41,7 @@ public interface MemberGoalRepository extends JpaRepository<MemberGoal, Long> {
           + " where m.id=:member_id and mg.isComplete=:is_complete")
   List<MemberGoal> findByMemberIdAndIsComplete(
       @Param("member_id") Long memberId, @Param("is_complete") Boolean isComplete);
+
+  @Query("select mg from MemberGoal mg" + " join fetch mg.member m" + " join fetch mg.goal g")
+  List<MemberGoal> findNotCompletedByMemberId(Long memberId);
 }
