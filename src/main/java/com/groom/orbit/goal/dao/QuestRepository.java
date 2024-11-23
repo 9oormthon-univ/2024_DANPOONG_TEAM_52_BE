@@ -45,4 +45,10 @@ public interface QuestRepository extends JpaRepository<Quest, Long> {
   @Query(
       "SELECT q FROM Quest q join fetch q.memberGoal mg join fetch mg.member m WHERE MONTH(q.deadline) = :month AND m.id = :memberId ORDER BY q.deadline ASC")
   List<Quest> findAllByMonthAndMemberId(Long memberId, Integer month);
+
+  @Query(
+      "select q from Quest q"
+          + " join fetch q.memberGoal mg"
+          + " where mg.memberGoalId=:member_goal_id")
+  List<Quest> findByMemberGoalId(@Param("member_goal_id") Long memberGoalId);
 }

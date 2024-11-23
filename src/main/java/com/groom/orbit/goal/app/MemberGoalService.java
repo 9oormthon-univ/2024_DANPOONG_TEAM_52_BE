@@ -15,7 +15,6 @@ import com.groom.orbit.goal.app.dto.request.MemberGoalRequestDto;
 import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
 import com.groom.orbit.goal.app.query.GoalQueryService;
-import com.groom.orbit.goal.app.query.QuestQueryService;
 import com.groom.orbit.goal.dao.MemberGoalRepository;
 import com.groom.orbit.goal.dao.entity.Goal;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberGoalService {
 
   private final MemberGoalRepository memberGoalRepository;
-  private final QuestQueryService questQueryService;
   private final MemberQueryService memberQueryService;
   private final GoalQueryService goalQueryService;
   private final GoalCommandService goalCommandService;
@@ -40,6 +38,14 @@ public class MemberGoalService {
 
     return memberGoalRepository
         .findById(memberId, goalId)
+        .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_GOAL));
+  }
+
+  @Transactional(readOnly = true)
+  public MemberGoal findMemberGoal(Long memberGoalId) {
+
+    return memberGoalRepository
+        .findById(memberGoalId)
         .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_GOAL));
   }
 
@@ -125,5 +131,9 @@ public class MemberGoalService {
     List<Goal> goals = goalQueryService.findNotIn(startIds);
 
     return goals.stream().map(Goal::getTitle).toList();
+  }
+
+  public List<MemberGoal> findMemberGoalsByGoalId(Long goalId) {
+    return memberGoalRepository.findAllByGoalId(goalId);
   }
 }
