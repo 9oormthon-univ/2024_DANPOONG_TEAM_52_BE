@@ -10,7 +10,6 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KakaoInfoResponse implements OAuthInfoResponse {
 
-  // ToDo - 비즈앱 전환 시 동의 항목 Member 요소 추가
   @JsonProperty("kakao_account")
   private KakaoAccount kakaoAccount;
 
@@ -24,7 +23,7 @@ public class KakaoInfoResponse implements OAuthInfoResponse {
   @JsonIgnoreProperties(ignoreUnknown = true)
   static class KakaoProfile {
     private String nickname;
-    private String image;
+    private String profile_image_url;
   }
 
   @Override
@@ -34,6 +33,6 @@ public class KakaoInfoResponse implements OAuthInfoResponse {
 
   @Override
   public String getKakaoImage() {
-    return kakaoAccount.profile.image;
+    return kakaoAccount.profile.profile_image_url;
   }
 }

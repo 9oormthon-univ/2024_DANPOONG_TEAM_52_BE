@@ -8,5 +8,5 @@ import com.groom.orbit.auth.dao.entity.AuthMember;
 
 public interface AuthMemberRepository extends JpaRepository<AuthMember, Long> {
 
-  Optional<AuthMember> findByNickname(String email);
+  Optional<AuthMember> findByKakaoNickname(String kakaoNickname);
 }

@@ -22,6 +22,9 @@ public class AuthMember {
   @Column(name = "member_id")
   private Long id;
 
+  @Column(name = "kakao_nickname")
+  private String kakaoNickname;
+
   @Column(name = "nickname", length = 100)
   private String nickname;
 

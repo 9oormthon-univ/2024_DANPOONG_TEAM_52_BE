@@ -30,13 +30,18 @@ public class AuthService {
 
   public Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse) {
     return memberRepository
-        .findByNickname(oAuthInfoResponse.getKakaoNickname())
+        .findByKakaoNickname(oAuthInfoResponse.getKakaoNickname())
         .map(AuthMember::getId)
         .orElseGet(() -> newUser(oAuthInfoResponse));
   }
 
   private Long newUser(OAuthInfoResponse oAuthInfoResponse) {
-    AuthMember member = AuthMember.builder().nickname(oAuthInfoResponse.getKakaoNickname()).build();
+    AuthMember member =
+        AuthMember.builder()
+            .imageUrl(oAuthInfoResponse.getKakaoImage())
+            .kakaoNickname(oAuthInfoResponse.getKakaoNickname())
+            .nickname(oAuthInfoResponse.getKakaoNickname())
+            .build();
 
     return memberRepository.save(member).getId();
   }
