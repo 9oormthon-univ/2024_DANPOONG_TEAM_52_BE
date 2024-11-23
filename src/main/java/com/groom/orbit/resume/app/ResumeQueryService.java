@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.groom.orbit.common.exception.CommonException;
+import com.groom.orbit.common.exception.ErrorCode;
+import com.groom.orbit.member.app.MemberQueryService;
+import com.groom.orbit.member.dao.jpa.entity.Member;
 import com.groom.orbit.resume.app.dto.GetResumeResponseDto;
 import com.groom.orbit.resume.app.dto.ResumeResponseDto;
 import com.groom.orbit.resume.dao.ResumeRepository;
@@ -22,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class ResumeQueryService {
 
   private final ResumeRepository resumeRepository;
+  private final MemberQueryService memberQueryService;
 
   public GetResumeResponseDto getResume(Long memberId) {
 
@@ -36,6 +41,21 @@ public class ResumeQueryService {
         categorizedResumes.getOrDefault(ResumeCategory.QUALIFICATION, List.of()),
         categorizedResumes.getOrDefault(ResumeCategory.EXPERIENCE, List.of()),
         categorizedResumes.getOrDefault(ResumeCategory.ETC, List.of()));
+  }
+
+  public GetResumeResponseDto checkIsResume(Long memberId, Long otherId) {
+
+    Member member = memberQueryService.findMember(otherId);
+
+    if (member.getIsResume().equals(true)) {
+      return getResume(otherId);
+    } else {
+      if (memberId.equals(otherId)) {
+        return getResume(memberId);
+      } else {
+        throw new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE);
+      }
+    }
   }
 
   public List<String> convertToResumeStrings(GetResumeResponseDto responseDto) {
