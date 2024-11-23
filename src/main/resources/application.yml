@@ -2,11 +2,11 @@ spring:
   application:
     name: orbit
   profiles:
-    active: dev
+    active: test
   datasource:
-    url: "jdbc:mysql://${DATABASE_ADDRESS:localhost}:3306/orbit?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&maxReconnects=10"
-    username: ${DATABASE_USERNAME:root}
-    password: ${DATABASE_PASSWORD:password}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     properties:
       format_sql: true

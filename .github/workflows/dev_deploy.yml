@@ -3,9 +3,9 @@ name: Orbit dev CI/CD
 on:
   pull_request:
     branches:
-      - dev
+      - test
     types:
-      - closed
+      - opened
   workflow_dispatch: # (2).수동 실행도 가능하도록 #
 
 env:
