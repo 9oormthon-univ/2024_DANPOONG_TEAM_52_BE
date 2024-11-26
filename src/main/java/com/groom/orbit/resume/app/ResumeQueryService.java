@@ -47,7 +47,7 @@ public class ResumeQueryService {
 
     Member member = memberQueryService.findMember(otherId);
 
-    if (member.getIsResume().equals(true)) {
+    if (member.getIsProfile().equals(true)) {
       return getResume(otherId);
     } else {
       if (memberId.equals(otherId)) {

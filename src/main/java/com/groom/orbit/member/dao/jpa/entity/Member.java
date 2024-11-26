@@ -53,7 +53,7 @@ public class Member {
   private Boolean isNotification = false;
 
   @Column(name = "is_profile")
-  private Boolean isResume = false;
+  private Boolean isProfile = false;
 
   @Setter
   @Column(name = "ai_feedback", length = 50000, columnDefinition = "TEXT")
@@ -74,7 +74,7 @@ public class Member {
     this.knownPrompt = requestDto.knownPrompt();
     this.helpPrompt = requestDto.helpPrompt();
     this.isNotification = requestDto.isNotification();
-    this.isResume = requestDto.isProfile();
+    this.isProfile = requestDto.isProfile();
   }
 
   public void validateId(Long memberId) {

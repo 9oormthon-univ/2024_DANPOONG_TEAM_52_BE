@@ -19,6 +19,6 @@ public record GetMemberProfileResponseDto(
         member.getKnownPrompt(),
         member.getHelpPrompt(),
         member.getIsNotification(),
-        member.getIsResume());
+        member.getIsProfile());
   }
 }
