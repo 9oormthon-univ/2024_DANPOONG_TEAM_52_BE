@@ -32,7 +32,7 @@ public class ResumeQueryService {
 
     Map<ResumeCategory, List<ResumeResponseDto>> categorizedResumes =
         resumeRepository.findAllByMemberId(memberId).stream()
-            .map(ResumeResponseDto::toResumeResponseDto)
+            .map(ResumeResponseDto::fromResume)
             .collect(Collectors.groupingBy(ResumeResponseDto::resumeCategory));
 
     return new GetResumeResponseDto(

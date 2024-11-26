@@ -2,26 +2,23 @@ package com.groom.orbit.resume.app.dto;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.groom.orbit.resume.dao.entity.Resume;
 import com.groom.orbit.resume.dao.entity.ResumeCategory;
 
-import lombok.Builder;
-
-@Builder
 public record ResumeResponseDto(
     ResumeCategory resumeCategory,
     String title,
     String content,
-    LocalDate startDate,
-    LocalDate endDate) {
+    @JsonFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+    @JsonFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
-  public static ResumeResponseDto toResumeResponseDto(Resume resume) {
-    return ResumeResponseDto.builder()
-        .resumeCategory(resume.getResumeCategory())
-        .title(resume.getTitle())
-        .content(resume.getContent())
-        .startDate(resume.getStartDate())
-        .endDate(resume.getEndDate())
-        .build();
+  public static ResumeResponseDto fromResume(Resume resume) {
+    return new ResumeResponseDto(
+        resume.getResumeCategory(),
+        resume.getTitle(),
+        resume.getContent(),
+        resume.getStartDate(),
+        resume.getEndDate());
   }
 }
