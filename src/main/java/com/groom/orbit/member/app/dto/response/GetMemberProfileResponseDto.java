@@ -9,7 +9,7 @@ public record GetMemberProfileResponseDto(
     String knownPrompt,
     String helpPrompt,
     Boolean isNotification,
-    Boolean isResume) {
+    Boolean isProfile) {
 
   public static GetMemberProfileResponseDto fromMember(Member member) {
     return new GetMemberProfileResponseDto(
