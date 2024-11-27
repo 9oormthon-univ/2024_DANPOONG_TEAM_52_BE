@@ -22,6 +22,7 @@ import com.groom.orbit.common.dao.entity.BaseTimeEntity;
 import com.groom.orbit.member.dao.jpa.entity.Member;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -45,6 +46,10 @@ public class MemberGoal extends BaseTimeEntity {
   @ColumnDefault("false")
   @Column(nullable = false)
   private Boolean isComplete = false;
+
+  @Setter
+  @Column(name = "sequence")
+  private Integer sequence;
 
   @OneToMany(mappedBy = "memberGoal", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Quest> quests = new ArrayList<>();

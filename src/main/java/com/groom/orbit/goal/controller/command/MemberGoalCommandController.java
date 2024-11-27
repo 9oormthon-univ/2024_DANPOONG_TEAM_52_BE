@@ -20,6 +20,7 @@ import com.groom.orbit.config.openai.GoalRecommendResponseDto;
 import com.groom.orbit.config.openai.OpenAiClient;
 import com.groom.orbit.goal.app.MemberGoalService;
 import com.groom.orbit.goal.app.dto.request.MemberGoalRequestDto;
+import com.groom.orbit.goal.app.dto.request.UpdateMemberGoalSequenceRequestDto;
 import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.RecommendGoalResponseDto;
 import com.groom.orbit.goal.dao.GoalRepository;
@@ -80,5 +81,12 @@ public class MemberGoalCommandController {
     goalRepository.save(newGoal);
     return ResponseDto.ok(
         RecommendGoalResponseDto.from(newGoal.getTitle(), newGoal.getCategory().toString()));
+  }
+
+  @PatchMapping
+  public ResponseDto<CommonSuccessDto> updateMemberGoalSequence(
+      @AuthMember Long memberId,
+      @RequestBody List<UpdateMemberGoalSequenceRequestDto> requestDtoList) {
+    return ResponseDto.ok(memberGoalService.updateMemberGoalSequence(memberId, requestDtoList));
   }
 }

@@ -12,6 +12,7 @@ import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
 import com.groom.orbit.goal.app.command.GoalCommandService;
 import com.groom.orbit.goal.app.dto.request.MemberGoalRequestDto;
+import com.groom.orbit.goal.app.dto.request.UpdateMemberGoalSequenceRequestDto;
 import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
 import com.groom.orbit.goal.app.query.GoalQueryService;
@@ -67,6 +68,12 @@ public class MemberGoalService {
 
     MemberGoal memberGoal = MemberGoal.create(member, goal);
     goal.increaseCount();
+
+    Integer MemberGoalLen =
+        memberGoalRepository.findAllByMemberIdAndIsCompleteFalse(memberId).size();
+
+    memberGoal.setSequence(MemberGoalLen + 1);
+
     MemberGoal savedMemberGoal = memberGoalRepository.save(memberGoal);
 
     List<GetQuestResponseDto> questDtos =
@@ -160,5 +167,23 @@ public class MemberGoalService {
 
     return new GetMemberGoalResponseDto(
         memberGoal.getMemberGoalId(), memberGoal.getTitle(), questDtos);
+  }
+
+  public CommonSuccessDto updateMemberGoalSequence(
+      Long memberId, List<UpdateMemberGoalSequenceRequestDto> requestDtoList) {
+
+    List<MemberGoal> memberGoalList =
+        memberGoalRepository.findAllByMemberIdAndIsCompleteFalse(memberId);
+
+    for (UpdateMemberGoalSequenceRequestDto dto : requestDtoList) {
+      memberGoalList.stream()
+          .filter(memberGoal -> memberGoal.getMemberGoalId().equals(dto.memberGoalId()))
+          .findFirst()
+          .ifPresent(memberGoal -> memberGoal.setSequence(dto.sequence()));
+    }
+
+    memberGoalRepository.saveAll(memberGoalList);
+
+    return CommonSuccessDto.fromEntity(true);
   }
 }
