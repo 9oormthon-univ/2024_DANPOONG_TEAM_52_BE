@@ -7,6 +7,7 @@ import com.groom.orbit.resume.dao.entity.Resume;
 import com.groom.orbit.resume.dao.entity.ResumeCategory;
 
 public record ResumeResponseDto(
+    Long resumeId,
     ResumeCategory resumeCategory,
     String title,
     String content,
@@ -15,6 +16,7 @@ public record ResumeResponseDto(
 
   public static ResumeResponseDto fromResume(Resume resume) {
     return new ResumeResponseDto(
+        resume.getResumeId(),
         resume.getResumeCategory(),
         resume.getTitle(),
         resume.getContent(),
