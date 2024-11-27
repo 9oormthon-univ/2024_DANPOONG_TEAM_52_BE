@@ -1,6 +1,6 @@
 package com.groom.orbit.resume.app;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +59,7 @@ public class ResumeQueryService {
   }
 
   public List<String> convertToResumeStrings(GetResumeResponseDto responseDto) {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     Map<ResumeCategory, List<ResumeResponseDto>> categorizedResumes =
         Map.of(
@@ -84,9 +84,9 @@ public class ResumeQueryService {
                       .map(
                           dto -> {
                             String startDate =
-                                dto.startDate() != null ? sdf.format(dto.startDate()) : "N/A";
+                                dto.startDate() != null ? formatter.format(dto.startDate()) : "N/A";
                             String endDate =
-                                dto.endDate() != null ? sdf.format(dto.endDate()) : "N/A";
+                                dto.endDate() != null ? formatter.format(dto.endDate()) : "N/A";
                             return String.format(
                                 "제목: %s\n내용: %s\n시작일: %s\n마감일: %s",
                                 dto.title(), dto.content(), startDate, endDate);
