@@ -10,6 +10,7 @@ public record GetMemberGoalResponseDto(
     Long memberGoalId,
     String goalTitle,
     GoalCategory category,
+    Boolean isComplete,
     Integer sequence,
     @JsonFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
     @JsonFormat(pattern = "yyyy-MM-dd") LocalDate completedDate,
