@@ -54,8 +54,9 @@ public class MemberGoal extends BaseTimeEntity {
   private Integer sequence;
 
   @Setter
+  @ColumnDefault("2000-12-31 00:00:00")
   @Column(name = "completed_date")
-  private LocalDateTime completedDate;
+  private LocalDateTime completedDate = LocalDateTime.of(2000, 12, 31, 00, 00);
 
   @OneToMany(mappedBy = "memberGoal", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Quest> quests = new ArrayList<>();
