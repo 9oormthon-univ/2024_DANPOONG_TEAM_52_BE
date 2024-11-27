@@ -41,4 +41,7 @@ public interface MemberGoalRepository extends JpaRepository<MemberGoal, Long> {
   List<MemberGoal> findAllByGoalId(@Param("goal_id") Long goalId);
 
   List<MemberGoal> findAllByMemberIdAndIsCompleteFalse(Long memberId);
+
+  List<MemberGoal> findAllByMemberIdAndIsCompleteFalseAndSequenceGreaterThan(
+      Long memberId, Long sequence);
 }

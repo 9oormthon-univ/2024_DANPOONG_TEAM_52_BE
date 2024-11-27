@@ -186,4 +186,22 @@ public class MemberGoalService {
 
     return CommonSuccessDto.fromEntity(true);
   }
+
+  public CommonSuccessDto updateMemberGoalIsComplete(Long memberId, Long memberGoalId) {
+
+    MemberGoal memberGoal = findMemberGoal(memberGoalId);
+
+    memberGoal.setIsComplete(true);
+
+    List<MemberGoal> memberGoalList =
+        memberGoalRepository.findAllByMemberIdAndIsCompleteFalseAndSequenceGreaterThan(
+            memberId, memberGoal.getSequence().longValue());
+
+    memberGoalList.forEach(goal -> goal.setSequence(goal.getSequence() - 1));
+
+    memberGoalRepository.save(memberGoal);
+    memberGoalRepository.saveAll(memberGoalList);
+
+    return CommonSuccessDto.fromEntity(true);
+  }
 }

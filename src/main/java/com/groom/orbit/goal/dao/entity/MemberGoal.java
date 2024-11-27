@@ -44,6 +44,7 @@ public class MemberGoal extends BaseTimeEntity {
   private Goal goal;
 
   @ColumnDefault("false")
+  @Setter
   @Column(nullable = false)
   private Boolean isComplete = false;
 

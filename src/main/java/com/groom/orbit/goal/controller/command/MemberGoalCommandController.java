@@ -89,4 +89,10 @@ public class MemberGoalCommandController {
       @RequestBody List<UpdateMemberGoalSequenceRequestDto> requestDtoList) {
     return ResponseDto.ok(memberGoalService.updateMemberGoalSequence(memberId, requestDtoList));
   }
+
+  @PatchMapping("/complete/{member_goal_id}")
+  public ResponseDto<CommonSuccessDto> updateMemberGoalIsComplete(
+      @AuthMember Long memberId, @PathVariable("member_goal_id") Long memberGoalId) {
+    return ResponseDto.ok(memberGoalService.updateMemberGoalIsComplete(memberId, memberGoalId));
+  }
 }
