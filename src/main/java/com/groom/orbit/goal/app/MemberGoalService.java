@@ -85,7 +85,11 @@ public class MemberGoalService {
             .toList();
 
     return new GetMemberGoalResponseDto(
-        savedMemberGoal.getMemberGoalId(), savedMemberGoal.getTitle(), questDtos);
+        savedMemberGoal.getMemberGoalId(),
+        savedMemberGoal.getTitle(),
+        savedMemberGoal.getGoal().getCategory(),
+        savedMemberGoal.getSequence(),
+        questDtos);
   }
 
   public CommonSuccessDto updateGoal(Long memberId, Long memberGoalId, MemberGoalRequestDto dto) {
@@ -118,6 +122,8 @@ public class MemberGoalService {
                 new GetMemberGoalResponseDto(
                     memberGoal.getMemberGoalId(),
                     memberGoal.getTitle(),
+                    memberGoal.getGoal().getCategory(),
+                    memberGoal.getSequence(),
                     getGetQuestResponseDtos(memberGoal)))
         .toList();
   }
@@ -166,7 +172,11 @@ public class MemberGoalService {
             .toList();
 
     return new GetMemberGoalResponseDto(
-        memberGoal.getMemberGoalId(), memberGoal.getTitle(), questDtos);
+        memberGoal.getMemberGoalId(),
+        memberGoal.getTitle(),
+        memberGoal.getGoal().getCategory(),
+        memberGoal.getSequence(),
+        questDtos);
   }
 
   public CommonSuccessDto updateMemberGoalSequence(
