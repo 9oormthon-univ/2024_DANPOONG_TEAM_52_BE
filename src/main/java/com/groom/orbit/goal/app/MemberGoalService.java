@@ -1,5 +1,6 @@
 package com.groom.orbit.goal.app;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +90,8 @@ public class MemberGoalService {
         savedMemberGoal.getTitle(),
         savedMemberGoal.getGoal().getCategory(),
         savedMemberGoal.getSequence(),
+        savedMemberGoal.getCreatedAt().toLocalDate(),
+        savedMemberGoal.getCompletedDate().toLocalDate(),
         questDtos);
   }
 
@@ -124,6 +127,8 @@ public class MemberGoalService {
                     memberGoal.getTitle(),
                     memberGoal.getGoal().getCategory(),
                     memberGoal.getSequence(),
+                    memberGoal.getCreatedAt().toLocalDate(),
+                    memberGoal.getCompletedDate().toLocalDate(),
                     getGetQuestResponseDtos(memberGoal)))
         .toList();
   }
@@ -176,6 +181,8 @@ public class MemberGoalService {
         memberGoal.getTitle(),
         memberGoal.getGoal().getCategory(),
         memberGoal.getSequence(),
+        memberGoal.getCreatedAt().toLocalDate(),
+        memberGoal.getCompletedDate().toLocalDate(),
         questDtos);
   }
 
@@ -202,6 +209,7 @@ public class MemberGoalService {
     MemberGoal memberGoal = findMemberGoal(memberGoalId);
 
     memberGoal.setIsComplete(true);
+    memberGoal.setCompletedDate(LocalDateTime.now());
 
     List<MemberGoal> memberGoalList =
         memberGoalRepository.findAllByMemberIdAndIsCompleteFalseAndSequenceGreaterThan(

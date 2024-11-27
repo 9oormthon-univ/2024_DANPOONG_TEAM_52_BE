@@ -1,5 +1,6 @@
 package com.groom.orbit.goal.dao.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,10 @@ public class MemberGoal extends BaseTimeEntity {
   @Setter
   @Column(name = "sequence")
   private Integer sequence;
+
+  @Setter
+  @Column(name = "completed_date")
+  private LocalDateTime completedDate;
 
   @OneToMany(mappedBy = "memberGoal", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Quest> quests = new ArrayList<>();
