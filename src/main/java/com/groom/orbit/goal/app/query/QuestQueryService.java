@@ -33,7 +33,7 @@ public class QuestQueryService {
   }
 
   public List<Quest> findQuestsByMemberAndGoal(Long memberId, Long goalId) {
-    return questRepository.findByMemberIdAndGoalId(memberId, goalId);
+    return questRepository.findByMemberIdAndMemberGoalId(memberId, goalId);
   }
 
   public List<Quest> findQuestsByMemberAndGoal(Long memberGoalId) {

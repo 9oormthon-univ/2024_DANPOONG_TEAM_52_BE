@@ -15,8 +15,8 @@ public interface QuestRepository extends JpaRepository<Quest, Long> {
           + " join fetch q.memberGoal mg"
           + " join fetch mg.goal g"
           + " join fetch mg.member m"
-          + " where m.id=:member_id and g.goalId=:goal_id")
-  List<Quest> findByMemberIdAndGoalId(
+          + " where m.id=:member_id and mg.memberGoalId=:goal_id")
+  List<Quest> findByMemberIdAndMemberGoalId(
       @Param("member_id") Long memberId, @Param("goal_id") Long goalId);
 
   @Query(
