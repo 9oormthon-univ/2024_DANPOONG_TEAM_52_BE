@@ -40,6 +40,7 @@ public class Member {
   @Column(name = "nickname", length = 100)
   private String nickname;
 
+  @Setter
   @Column(name = "image_url", length = 500)
   private String imageUrl;
 
@@ -68,9 +69,8 @@ public class Member {
     this.interestJobs.addAll(interestJobs);
   }
 
-  public void updateMember(UpdateMemberRequestDto requestDto, String newProfileUrl) {
+  public void updateMember(UpdateMemberRequestDto requestDto) {
     this.nickname = requestDto.nickname();
-    this.imageUrl = newProfileUrl;
     this.knownPrompt = requestDto.knownPrompt();
     this.helpPrompt = requestDto.helpPrompt();
     this.isNotification = requestDto.isNotification();

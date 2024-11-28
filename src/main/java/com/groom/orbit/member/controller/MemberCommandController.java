@@ -24,11 +24,18 @@ public class MemberCommandController {
     return ResponseDto.ok(memberCommandService.createAiFeedbackResponse(memberId));
   }
 
-  @PatchMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+  @PatchMapping
   public ResponseDto<CommonSuccessDto> updateMember(
+      @AuthMember Long memberId, @RequestBody UpdateMemberRequestDto requestDto) {
+    return ResponseDto.ok(memberCommandService.updateMember(memberId, requestDto));
+  }
+
+  @PatchMapping(
+      value = "/image",
+      consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+  public ResponseDto<CommonSuccessDto> updateMemberProfileImageUrl(
       @AuthMember Long memberId,
-      @RequestPart(value = "file", required = false) MultipartFile file,
-      @RequestPart(value = "requestDto") UpdateMemberRequestDto requestDto) {
-    return ResponseDto.ok(memberCommandService.updateMember(memberId, requestDto, file));
+      @RequestPart(value = "file", required = false) MultipartFile file) {
+    return ResponseDto.ok(memberCommandService.updateMemberProfileImage(memberId, file));
   }
 }

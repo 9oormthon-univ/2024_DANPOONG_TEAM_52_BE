@@ -68,14 +68,23 @@ public class MemberCommandService {
     return responseDto.getAnswer();
   }
 
-  public CommonSuccessDto updateMember(
-      Long memberId, UpdateMemberRequestDto requestDto, MultipartFile multipartFile) {
+  public CommonSuccessDto updateMember(Long memberId, UpdateMemberRequestDto requestDto) {
+    Member member = memberQueryService.findMember(memberId);
+
+    member.updateMember(requestDto);
+
+    memberRepository.save(member);
+
+    return CommonSuccessDto.fromEntity(true);
+  }
+
+  public CommonSuccessDto updateMemberProfileImage(Long memberId, MultipartFile multipartFile) {
 
     Member member = memberQueryService.findMember(memberId);
 
     String newProfileUrl = s3UploadService.uploadFile(multipartFile);
 
-    member.updateMember(requestDto, newProfileUrl);
+    member.setImageUrl(newProfileUrl);
 
     memberRepository.save(member);
 
