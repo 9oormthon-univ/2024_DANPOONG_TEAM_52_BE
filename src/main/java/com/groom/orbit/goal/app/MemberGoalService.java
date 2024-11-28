@@ -17,6 +17,7 @@ import com.groom.orbit.goal.app.dto.request.UpdateMemberGoalSequenceRequestDto;
 import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
 import com.groom.orbit.goal.app.query.GoalQueryService;
+import com.groom.orbit.goal.dao.GoalRepository;
 import com.groom.orbit.goal.dao.MemberGoalRepository;
 import com.groom.orbit.goal.dao.entity.Goal;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
@@ -35,6 +36,7 @@ public class MemberGoalService {
   private final MemberQueryService memberQueryService;
   private final GoalQueryService goalQueryService;
   private final GoalCommandService goalCommandService;
+  private final GoalRepository goalRepository;
 
   @Transactional(readOnly = true)
   public MemberGoal findMemberGoal(Long memberId, Long goalId) {
@@ -69,6 +71,8 @@ public class MemberGoalService {
 
     MemberGoal memberGoal = MemberGoal.create(member, goal);
     goal.increaseCount();
+
+    goalRepository.save(goal);
 
     Integer MemberGoalLen =
         memberGoalRepository.findAllByMemberIdAndIsCompleteFalse(memberId).size();
