@@ -34,7 +34,9 @@ public class JobQueryService {
                     Job::getCategory,
                     LinkedHashMap::new,
                     Collectors.mapping(
-                        job -> new JobDetailResponseDto(job.getJobId(), job.getName()),
+                        job ->
+                            new JobDetailResponseDto(
+                                job.getJobId(), job.getCategory(), job.getName()),
                         Collectors.toList())));
 
     return new JobGroupingByCategoryResponseDto(jobs);

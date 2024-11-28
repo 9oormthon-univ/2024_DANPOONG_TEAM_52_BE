@@ -29,7 +29,7 @@ public class InterestJobService {
             .toList();
 
     return jobs.stream()
-        .map(job -> new JobDetailResponseDto(job.getJobId(), job.getName()))
+        .map(job -> new JobDetailResponseDto(job.getJobId(), job.getCategory(), job.getName()))
         .toList();
   }
 
