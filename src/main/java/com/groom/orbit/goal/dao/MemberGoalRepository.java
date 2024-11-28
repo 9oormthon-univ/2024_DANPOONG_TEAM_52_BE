@@ -15,7 +15,7 @@ public interface MemberGoalRepository extends JpaRepository<MemberGoal, Long> {
       "select mg from MemberGoal mg"
           + " join fetch mg.member m"
           + " join fetch mg.goal g"
-          + " where m.id=:member_id and g.goalId=:goal_id")
+          + " where m.id=:member_id and mg.memberGoalId=:goal_id")
   Optional<MemberGoal> findById(@Param("member_id") Long memberId, @Param("goal_id") Long goalId);
 
   @Query(
