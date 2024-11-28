@@ -33,9 +33,9 @@ public class Goal {
   @Enumerated(EnumType.STRING)
   private GoalCategory category;
 
-  @ColumnDefault("0")
+  @ColumnDefault("1")
   @Column(nullable = false)
-  private Integer count = 0;
+  private Integer count = 1;
 
   public static Goal create(String title, String category) {
     Goal goal = new Goal();

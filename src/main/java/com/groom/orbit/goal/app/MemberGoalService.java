@@ -72,8 +72,6 @@ public class MemberGoalService {
     MemberGoal memberGoal = MemberGoal.create(member, goal);
     goal.increaseCount();
 
-    goalRepository.save(goal);
-
     Integer MemberGoalLen =
         memberGoalRepository.findAllByMemberIdAndIsCompleteFalse(memberId).size();
 
