@@ -47,7 +47,10 @@ public class QuestQueryService {
         .map(
             quest ->
                 new GetQuestResponseDto(
-                    quest.getQuestId(), quest.getTitle(), quest.getIsComplete()))
+                    quest.getQuestId(),
+                    quest.getTitle(),
+                    quest.getDeadline(),
+                    quest.getIsComplete()))
         .toList();
   }
 

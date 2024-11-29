@@ -84,7 +84,10 @@ public class MemberGoalService {
             .map(
                 quest ->
                     new GetQuestResponseDto(
-                        quest.getQuestId(), quest.getTitle(), quest.getIsComplete()))
+                        quest.getQuestId(),
+                        quest.getTitle(),
+                        quest.getDeadline(),
+                        quest.getIsComplete()))
             .toList();
 
     return new GetMemberGoalResponseDto(
@@ -139,7 +142,10 @@ public class MemberGoalService {
 
   private static List<GetQuestResponseDto> getGetQuestResponseDtos(MemberGoal mg) {
     return mg.getQuests().stream()
-        .map(q -> new GetQuestResponseDto(q.getQuestId(), q.getTitle(), q.getIsComplete()))
+        .map(
+            q ->
+                new GetQuestResponseDto(
+                    q.getQuestId(), q.getTitle(), q.getDeadline(), q.getIsComplete()))
         .toList();
   }
 
@@ -177,7 +183,10 @@ public class MemberGoalService {
             .map(
                 quest ->
                     new GetQuestResponseDto(
-                        quest.getQuestId(), quest.getTitle(), quest.getIsComplete()))
+                        quest.getQuestId(),
+                        quest.getTitle(),
+                        quest.getDeadline(),
+                        quest.getIsComplete()))
             .toList();
 
     return new GetMemberGoalResponseDto(

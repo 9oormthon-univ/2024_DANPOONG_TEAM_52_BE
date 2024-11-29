@@ -29,7 +29,7 @@ public interface QuestRepository extends JpaRepository<Quest, Long> {
   List<Quest> findByQuestIdIn(List<Long> ids);
 
   @Query(
-      "SELECT q FROM Quest q join fetch q.memberGoal mg join fetch mg.member m WHERE MONTH(q.deadline) = :month AND m.id = :memberId ORDER BY q.deadline ASC")
+      "SELECT q FROM Quest q join fetch q.memberGoal mg join fetch mg.member m WHERE MONTH(q.deadline) = :month AND q.deadline is not null AND m.id = :memberId ORDER BY q.deadline ASC")
   List<Quest> findAllByMonthAndMemberId(Long memberId, Integer month);
 
   @Query(
