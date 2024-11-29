@@ -13,6 +13,7 @@ import com.groom.orbit.config.openai.QuestRecommendRequestDto;
 import com.groom.orbit.config.openai.QuestRecommendResponseDto;
 import com.groom.orbit.goal.app.MemberGoalService;
 import com.groom.orbit.goal.app.dto.request.CreateQuestRequestDto;
+import com.groom.orbit.goal.app.dto.response.CreateQuestResponse;
 import com.groom.orbit.goal.app.dto.response.RecommendQuestResponseDto;
 import com.groom.orbit.goal.app.query.GoalQueryService;
 import com.groom.orbit.goal.app.query.QuestQueryService;
@@ -38,14 +39,14 @@ public class QuestCommandService {
   private final OpenAiClient openAiClient;
 
   /** TODO join 최적화 */
-  public CommonSuccessDto createQuest(Long memberId, CreateQuestRequestDto dto) {
+  public CreateQuestResponse createQuest(Long memberId, CreateQuestRequestDto dto) {
     MemberGoal memberGoal = memberGoalService.findMemberGoal(memberId, dto.goalId());
     int newQuestSequence = questQueryService.getQuestCountsByGoalId(dto.goalId()) + 1;
     Quest quest = Quest.create(dto.title(), memberGoal, dto.deadline(), newQuestSequence);
 
     questRepository.save(quest);
 
-    return CommonSuccessDto.fromEntity(true);
+    return CreateQuestResponse.fromEntity(quest);
   }
 
   /** select 최적화 */

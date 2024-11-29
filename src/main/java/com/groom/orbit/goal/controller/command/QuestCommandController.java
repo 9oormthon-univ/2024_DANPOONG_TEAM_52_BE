@@ -12,6 +12,7 @@ import com.groom.orbit.goal.app.command.QuestUpdateService;
 import com.groom.orbit.goal.app.dto.request.CreateQuestRequestDto;
 import com.groom.orbit.goal.app.dto.request.UpdateQuestRequestDto;
 import com.groom.orbit.goal.app.dto.request.UpdateQuestSequenceRequestDto;
+import com.groom.orbit.goal.app.dto.response.CreateQuestResponse;
 import com.groom.orbit.goal.app.dto.response.RecommendQuestResponseDto;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class QuestCommandController {
   private final QuestUpdateService questUpdateService;
 
   @PostMapping
-  public ResponseDto<CommonSuccessDto> createQuest(
+  public ResponseDto<CreateQuestResponse> createQuest(
       @AuthMember Long memberId, @RequestBody CreateQuestRequestDto dto) {
     return ResponseDto.created(questCommandService.createQuest(memberId, dto));
   }
