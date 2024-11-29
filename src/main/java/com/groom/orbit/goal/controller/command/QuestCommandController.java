@@ -30,13 +30,13 @@ public class QuestCommandController {
     return ResponseDto.created(questCommandService.createQuest(memberId, dto));
   }
 
-  @DeleteMapping("/{quest_id}/goal/{goal_id}")
-  public ResponseDto<CommonSuccessDto> deleteQuest(
-      @AuthMember Long memberId,
-      @PathVariable("quest_id") Long questId,
-      @PathVariable("goal_id") Long goalId) {
-    return ResponseDto.ok(questCommandService.deleteQuest(memberId, questId, goalId));
-  }
+  //  @DeleteMapping("/{quest_id}/goal/{goal_id}")
+  //  public ResponseDto<CommonSuccessDto> deleteQuest(
+  //      @AuthMember Long memberId,
+  //      @PathVariable("quest_id") Long questId,
+  //      @PathVariable("goal_id") Long goalId) {
+  //    return ResponseDto.ok(questCommandService.deleteQuest(memberId, questId, goalId));
+  //  }
 
   @PatchMapping("/{quest_id}")
   public ResponseDto<CommonSuccessDto> updateQuest(
@@ -56,5 +56,11 @@ public class QuestCommandController {
   public ResponseDto<RecommendQuestResponseDto> recommendQuest(
       @AuthMember Long memberId, @PathVariable Long memberGoalId) {
     return ResponseDto.ok(questCommandService.recommendQuest(memberId, memberGoalId));
+  }
+
+  @DeleteMapping("/{quest_id}")
+  public ResponseDto<CommonSuccessDto> deleteQuest(
+      @AuthMember Long memberId, @PathVariable("quest_id") Long questId) {
+    return ResponseDto.ok(questCommandService.deleteOneQuest(questId));
   }
 }

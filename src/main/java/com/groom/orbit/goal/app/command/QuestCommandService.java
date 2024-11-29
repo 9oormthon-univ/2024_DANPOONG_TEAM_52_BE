@@ -91,4 +91,11 @@ public class QuestCommandService {
 
     return RecommendQuestResponseDto.from(title);
   }
+
+  public CommonSuccessDto deleteOneQuest(Long questId) {
+
+    questRepository.delete(questQueryService.findQuest(questId));
+
+    return CommonSuccessDto.fromEntity(true);
+  }
 }
