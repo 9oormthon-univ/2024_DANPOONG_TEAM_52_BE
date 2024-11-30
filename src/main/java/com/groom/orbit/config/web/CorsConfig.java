@@ -21,8 +21,9 @@ public class CorsConfig {
             "http://localhost:3000",
             "http://localhost:8080/*",
             "https://api.danpoong-orbit.shop/*",
-            "**",
-            "https://m.danpoong-orbit.shop/*"));
+            "*",
+            "https://m.danpoong-orbit.shop/*",
+            "http://m.danpoong-orbit.shop/*"));
     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     corsConfig.setAllowedHeaders(List.of("*"));
     corsConfig.setAllowCredentials(true);
