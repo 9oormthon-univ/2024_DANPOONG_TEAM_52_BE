@@ -16,7 +16,6 @@ import com.groom.orbit.config.security.filter.JwtAuthExceptionHandlingFilter;
 import com.groom.orbit.config.security.filter.JwtRequestFilter;
 import com.groom.orbit.config.security.handler.JwtAccessDeniedHandler;
 import com.groom.orbit.config.security.handler.JwtAuthenticationEntryPoint;
-import com.groom.orbit.config.web.CorsConfig;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  private final CorsConfig corsConfig;
   private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JwtRequestFilter jwtRequestFilter;
@@ -43,8 +41,6 @@ public class SecurityConfig {
     http.sessionManagement(
         sessionManagement ->
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-    http.cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()));
 
     http.exceptionHandling(
         (configurer ->
