@@ -16,15 +16,7 @@ public class CorsConfig {
     CorsConfiguration corsConfig = new CorsConfiguration();
 
     corsConfig.setAllowCredentials(true);
-    corsConfig.setAllowedOriginPatterns(
-        List.of(
-            "http://localhost:3000",
-            "http://localhost:8080/*",
-            "https://api.danpoong-orbit.shop/*",
-            "https://m.danpoong-orbit.shop/*",
-            "http://m.danpoong-orbit.shop/*",
-            "https://www.danpoong-orbit.shop/*",
-            "http://www.danpoong-orbit.shop/*"));
+    corsConfig.setAllowedOriginPatterns(List.of("http://localhost:3000"));
     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     corsConfig.setAllowedHeaders(List.of("*"));
     corsConfig.setAllowCredentials(true);
