@@ -96,6 +96,7 @@ public class MemberGoalService {
         savedMemberGoal.getGoal().getCategory(),
         savedMemberGoal.getIsComplete(),
         savedMemberGoal.getSequence(),
+        savedMemberGoal.getIsResume(),
         savedMemberGoal.getCreatedAt().toLocalDate(),
         savedMemberGoal.getCompletedDate().toLocalDate(),
         questDtos);
@@ -134,6 +135,7 @@ public class MemberGoalService {
                     memberGoal.getGoal().getCategory(),
                     memberGoal.getIsComplete(),
                     memberGoal.getSequence(),
+                    memberGoal.getIsResume(),
                     memberGoal.getCreatedAt().toLocalDate(),
                     memberGoal.getCompletedDate().toLocalDate(),
                     getGetQuestResponseDtos(memberGoal)))
@@ -195,6 +197,7 @@ public class MemberGoalService {
         memberGoal.getGoal().getCategory(),
         memberGoal.getIsComplete(),
         memberGoal.getSequence(),
+        memberGoal.getIsResume(),
         memberGoal.getCreatedAt().toLocalDate(),
         memberGoal.getCompletedDate().toLocalDate(),
         questDtos);

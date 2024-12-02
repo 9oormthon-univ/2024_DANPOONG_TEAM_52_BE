@@ -58,6 +58,11 @@ public class MemberGoal extends BaseTimeEntity {
   @Column(name = "completed_date")
   private LocalDateTime completedDate = LocalDateTime.of(2000, 12, 31, 00, 00);
 
+  @Setter
+  @ColumnDefault("false")
+  @Column(name = "is_resume")
+  private Boolean isResume = false;
+
   @OneToMany(mappedBy = "memberGoal", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Quest> quests = new ArrayList<>();
 

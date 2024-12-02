@@ -12,6 +12,7 @@ public record GetMemberGoalResponseDto(
     GoalCategory category,
     Boolean isComplete,
     Integer sequence,
+    Boolean isResume,
     @JsonFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
     @JsonFormat(pattern = "yyyy-MM-dd") LocalDate completedDate,
     List<GetQuestResponseDto> quests) {}

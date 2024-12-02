@@ -7,6 +7,7 @@ import com.groom.orbit.common.dto.CommonSuccessDto;
 import com.groom.orbit.common.dto.ResponseDto;
 import com.groom.orbit.resume.app.ResumeCommendService;
 import com.groom.orbit.resume.app.dto.ResumeRequestDto;
+import com.groom.orbit.resume.app.dto.ResumeResponseDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +35,15 @@ public class ResumeCommandController {
   @DeleteMapping("/{resumeId}")
   public ResponseDto<CommonSuccessDto> deleteResume(
       @AuthMember Long memberId, @PathVariable Long resumeId) {
-    return ResponseDto.ok(resumeCommandService.deleteResume(resumeId));
+    return ResponseDto.ok(resumeCommandService.deleteResume(memberId, resumeId));
+  }
+
+  @PostMapping("/{member_goal_id}")
+  public ResponseDto<ResumeResponseDto> createResumeFromMemberGoal(
+      @AuthMember Long memberId,
+      @PathVariable(name = "member_goal_id") Long memberGoalId,
+      @RequestBody ResumeRequestDto requestDto) {
+    return ResponseDto.ok(
+        resumeCommandService.createResumeFromMemberGoal(memberId, memberGoalId, requestDto));
   }
 }
