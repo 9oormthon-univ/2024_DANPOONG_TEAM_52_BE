@@ -19,9 +19,9 @@ public class CalendarQueryController {
 
   private final ScheduleQueryService scheduleQueryService;
 
-  @GetMapping("/{month}")
+  @GetMapping("/{year}/{month}")
   public ResponseDto<GetCalendarResponseDto> getCalendar(
-      @AuthMember Long memberId, @PathVariable Integer month) {
-    return ResponseDto.ok(scheduleQueryService.getCalendar(memberId, month));
+      @AuthMember Long memberId, @PathVariable Integer year, @PathVariable Integer month) {
+    return ResponseDto.ok(scheduleQueryService.getCalendar(memberId, month, year));
   }
 }

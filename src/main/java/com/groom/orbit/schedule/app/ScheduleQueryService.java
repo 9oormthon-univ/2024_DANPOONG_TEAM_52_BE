@@ -30,15 +30,15 @@ public class ScheduleQueryService {
         .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_SCHEDULE));
   }
 
-  public GetCalendarResponseDto getCalendar(Long memberId, Integer month) {
+  public GetCalendarResponseDto getCalendar(Long memberId, Integer month, Integer year) {
 
     List<GetScheduleResponseDto> scheduleResponseDtoList =
-        scheduleRepository.findAllByMonthAndMemberId(memberId, month).stream()
+        scheduleRepository.findAllByMonthAndMemberId(memberId, month, year).stream()
             .map(schedule -> GetScheduleResponseDto.fromSchedule(schedule))
             .toList();
 
     List<GetQuestResponseDto> questResponseDtoList =
-        questRepository.findAllByMonthAndMemberId(memberId, month).stream()
+        questRepository.findAllByMonthAndMemberId(memberId, month, year).stream()
             .map(quest -> GetQuestResponseDto.fromQuest(quest))
             .toList();
 
