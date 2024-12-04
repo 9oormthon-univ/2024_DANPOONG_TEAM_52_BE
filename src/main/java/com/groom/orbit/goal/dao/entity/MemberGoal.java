@@ -22,11 +22,13 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.groom.orbit.common.dao.entity.BaseTimeEntity;
 import com.groom.orbit.member.dao.jpa.entity.Member;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @DynamicUpdate
 @Table(name = "member_goal")
 public class MemberGoal extends BaseTimeEntity {
@@ -86,5 +88,16 @@ public class MemberGoal extends BaseTimeEntity {
 
   public void validateMember(Long memberId) {
     this.member.validateId(memberId);
+  }
+
+  public MemberGoal copyMemberGoal(Member member, Goal goal, Integer memberGoalLen) {
+    return MemberGoal.builder()
+        .member(member)
+        .goal(goal)
+        .isComplete(false)
+        .sequence(memberGoalLen + 1)
+        .isResume(false)
+        .completedDate(this.completedDate)
+        .build();
   }
 }

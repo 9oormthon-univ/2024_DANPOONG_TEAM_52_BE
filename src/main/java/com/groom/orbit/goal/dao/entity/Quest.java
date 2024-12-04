@@ -40,7 +40,6 @@ public class Quest extends BaseTimeEntity {
 
   private LocalDate deadline;
 
-  @Column(nullable = false)
   private Integer sequence;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -96,5 +95,13 @@ public class Quest extends BaseTimeEntity {
 
   public void updateSequence(int sequence) {
     this.sequence = sequence;
+  }
+
+  public static Quest copyQuest(String title, MemberGoal memberGoal) {
+    Quest quest = new Quest();
+    quest.title = title;
+    quest.memberGoal = memberGoal;
+
+    return quest;
   }
 }

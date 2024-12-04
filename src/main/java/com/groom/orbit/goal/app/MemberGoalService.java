@@ -21,6 +21,7 @@ import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
 import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
 import com.groom.orbit.goal.app.query.GoalQueryService;
 import com.groom.orbit.goal.dao.MemberGoalRepository;
+import com.groom.orbit.goal.dao.QuestRepository;
 import com.groom.orbit.goal.dao.entity.Goal;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
 import com.groom.orbit.goal.dao.entity.Quest;
@@ -39,6 +40,7 @@ public class MemberGoalService {
   private final GoalQueryService goalQueryService;
   private final GoalCommandService goalCommandService;
   private final VectorService vectorService;
+  private final QuestRepository questRepository;
 
   @Transactional(readOnly = true)
   public MemberGoal findMemberGoal(Long memberId, Long goalId) {
@@ -261,5 +263,49 @@ public class MemberGoalService {
     memberGoalRepository.saveAll(memberGoalList);
 
     return CommonSuccessDto.fromEntity(true);
+  }
+
+  public GetMemberGoalResponseDto createOtherGoal(Long memberId, Long memberGoalId) {
+
+    MemberGoal memberGoal = findMemberGoal(memberGoalId);
+
+    Goal goal = goalQueryService.findGoal(memberGoal.getMemberGoalId());
+
+    Member member = memberQueryService.findMember(memberId);
+
+    int memberGoalLen = memberGoalRepository.findAllByMemberIdAndIsCompleteFalse(memberId).size();
+
+    MemberGoal copyMemberGoal = new MemberGoal().copyMemberGoal(member, goal, memberGoalLen);
+
+    memberGoalRepository.save(copyMemberGoal);
+
+    List<Quest> copQuestList =
+        memberGoal.getQuests().stream()
+            .map(originQuest -> Quest.copyQuest(originQuest.getTitle(), copyMemberGoal))
+            .toList();
+
+    questRepository.saveAll(copQuestList);
+
+    List<GetQuestResponseDto> questDtos =
+        copQuestList.stream()
+            .map(
+                quest ->
+                    new GetQuestResponseDto(
+                        quest.getQuestId(),
+                        quest.getTitle(),
+                        quest.getDeadline(),
+                        quest.getIsComplete()))
+            .toList();
+
+    return new GetMemberGoalResponseDto(
+        copyMemberGoal.getMemberGoalId(),
+        copyMemberGoal.getTitle(),
+        copyMemberGoal.getGoal().getCategory(),
+        copyMemberGoal.getIsComplete(),
+        copyMemberGoal.getSequence(),
+        copyMemberGoal.getIsResume(),
+        copyMemberGoal.getCreatedAt().toLocalDate(),
+        copyMemberGoal.getCompletedDate().toLocalDate(),
+        questDtos);
   }
 }

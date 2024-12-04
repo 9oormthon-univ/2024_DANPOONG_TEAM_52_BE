@@ -82,4 +82,10 @@ public class MemberGoalCommandController {
       @AuthMember Long memberId, @PathVariable("member_goal_id") Long memberGoalId) {
     return ResponseDto.ok(memberGoalService.updateMemberGoalIsComplete(memberId, memberGoalId));
   }
+
+  @PostMapping("/copy/{member_goal_id}")
+  public ResponseDto<GetMemberGoalResponseDto> copyMemberGoal(
+      @AuthMember Long memberId, @PathVariable("member_goal_id") Long otherMemberGoalId) {
+    return ResponseDto.ok(memberGoalService.createOtherGoal(memberId, otherMemberGoalId));
+  }
 }
