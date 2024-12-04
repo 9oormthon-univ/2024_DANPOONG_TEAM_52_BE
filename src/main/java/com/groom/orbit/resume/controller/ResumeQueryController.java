@@ -25,8 +25,7 @@ public class ResumeQueryController {
   }
 
   @GetMapping("/{otherId}")
-  public ResponseDto<GetResumeResponseDto> getResume(
-      @AuthMember Long memberId, @PathVariable Long otherId) {
+  public ResponseDto<Object> getResume(@AuthMember Long memberId, @PathVariable Long otherId) {
     return ResponseDto.ok(resumeQueryService.checkIsResume(memberId, otherId));
   }
 }

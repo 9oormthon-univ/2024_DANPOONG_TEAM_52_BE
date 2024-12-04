@@ -13,6 +13,7 @@ import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
 import com.groom.orbit.member.app.MemberQueryService;
 import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.resume.app.dto.GetOtherResumeResponseDto;
 import com.groom.orbit.resume.app.dto.GetResumeResponseDto;
 import com.groom.orbit.resume.app.dto.ResumeResponseDto;
 import com.groom.orbit.resume.dao.ResumeRepository;
@@ -43,12 +44,31 @@ public class ResumeQueryService {
         categorizedResumes.getOrDefault(ResumeCategory.ETC, List.of()));
   }
 
-  public GetResumeResponseDto checkIsResume(Long memberId, Long otherId) {
+  public GetOtherResumeResponseDto getOtherResume(Long otherId) {
+
+    Member member = memberQueryService.findMember(otherId);
+
+    Map<ResumeCategory, List<ResumeResponseDto>> categorizedResumes =
+        resumeRepository.findAllByMemberId(otherId).stream()
+            .map(ResumeResponseDto::fromResume)
+            .collect(Collectors.groupingBy(ResumeResponseDto::resumeCategory));
+
+    return new GetOtherResumeResponseDto(
+        categorizedResumes.getOrDefault(ResumeCategory.ACADEMY, List.of()),
+        categorizedResumes.getOrDefault(ResumeCategory.CAREER, List.of()),
+        categorizedResumes.getOrDefault(ResumeCategory.QUALIFICATION, List.of()),
+        categorizedResumes.getOrDefault(ResumeCategory.EXPERIENCE, List.of()),
+        categorizedResumes.getOrDefault(ResumeCategory.ETC, List.of()),
+        member.getImageUrl(),
+        member.getNickname());
+  }
+
+  public Object checkIsResume(Long memberId, Long otherId) {
 
     Member member = memberQueryService.findMember(otherId);
 
     if (member.getIsProfile().equals(true)) {
-      return getResume(otherId);
+      return getOtherResume(otherId);
     } else {
       if (memberId.equals(otherId)) {
         return getResume(memberId);
