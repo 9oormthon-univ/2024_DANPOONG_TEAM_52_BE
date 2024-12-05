@@ -60,6 +60,10 @@ public class Member {
   @Column(name = "ai_feedback", length = 50000, columnDefinition = "TEXT")
   private String aiFeedback = "";
 
+  @Setter
+  @Column(name = "fcm_token", length = 5000, columnDefinition = "TEXT")
+  private String fcmToken;
+
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<InterestJob> interestJobs = new ArrayList<>();
 

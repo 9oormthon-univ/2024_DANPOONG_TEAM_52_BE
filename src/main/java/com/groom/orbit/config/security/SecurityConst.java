@@ -11,5 +11,6 @@ public class SecurityConst {
   public static final String TOKEN_PREFIX = "Bearer ";
 
   // requestMatcher
-  public static final List<String> ALLOWED_URLS = List.of("/api", "api/auth/kakao", "/kakao/**");
+  public static final List<String> ALLOWED_URLS =
+      List.of("/api", "api/auth/kakao", "/kakao/**", "/api/fcm/**");
 }

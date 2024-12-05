@@ -112,6 +112,12 @@ dependencies {
 	// ai
 	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
 	implementation 'io.pinecone:pinecone-client:3.1.0'
+
+	// Google Firebase Admin
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
+
+	//Jackson Data binding
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
 }
 
 tasks.named('test') {
