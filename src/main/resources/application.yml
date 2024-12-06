@@ -55,3 +55,9 @@ cloud:
 ---
 fcm:
   fcm-url: ${FCM_URL}
+---
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}

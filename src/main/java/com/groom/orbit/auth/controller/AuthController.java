@@ -9,6 +9,8 @@ import com.groom.orbit.auth.app.AuthService;
 import com.groom.orbit.auth.app.dto.LoginResponseDto;
 import com.groom.orbit.common.exception.BaseResponse;
 import com.groom.orbit.config.security.kakao.KakaoLoginParams;
+import com.groom.orbit.config.security.kakao.KakaoReissueParams;
+import com.groom.orbit.config.security.oAuth.AuthToken;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,5 +24,10 @@ public class AuthController {
   @PostMapping("/kakao")
   public BaseResponse<LoginResponseDto> loginKakao(@RequestBody KakaoLoginParams params) {
     return BaseResponse.onSuccess(authService.login(params));
+  }
+
+  @PostMapping("/reissue")
+  public BaseResponse<AuthToken> reissue(@RequestBody KakaoReissueParams params) {
+    return BaseResponse.onSuccess(authService.reissue(params));
   }
 }
