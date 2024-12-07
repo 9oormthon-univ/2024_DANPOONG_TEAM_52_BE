@@ -47,7 +47,9 @@ jobs:
         shell: bash # (9).확보한 시간 보여주기
 
       - name: Create Firebase Config File
-        run: echo "${{ secrets.FIREBASE_CONFIG }}" > orbit-fcm.json
+        run: |
+          mkdir -p resources/firebase 
+          "${{ secrets.FIREBASE_CONFIG }}" > resources/firebase/orbit-fcm.json
         shell: bash
 
       - name: Login to Docker Hub
