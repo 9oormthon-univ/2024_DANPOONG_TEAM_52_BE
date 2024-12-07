@@ -68,7 +68,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_DEV_ACTION_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_DEV_ACTION_SECRET_ACCESS_KEY }}
           application_name: Orbit-dev-eb
-          environment_name: Orbit-dev-eb-env
+          environment_name: Orbit-eb-env
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-2
           deployment_package: Dockerrun.aws.json
