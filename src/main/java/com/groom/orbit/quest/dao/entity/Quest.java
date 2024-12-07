@@ -1,4 +1,4 @@
-package com.groom.orbit.goal.dao.entity;
+package com.groom.orbit.quest.dao.entity;
 
 import java.time.LocalDate;
 
@@ -15,8 +15,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.groom.orbit.common.dao.entity.BaseTimeEntity;
-import com.groom.orbit.common.exception.CommonException;
-import com.groom.orbit.common.exception.ErrorCode;
+import com.groom.orbit.goal.dao.entity.MemberGoal;
 import com.groom.orbit.member.dao.jpa.entity.Member;
 
 import lombok.Getter;
@@ -48,37 +47,25 @@ public class Quest extends BaseTimeEntity {
 
   public static Quest create(
       String title, MemberGoal memberGoal, LocalDate deadline, int newSequence) {
-    Quest quest = new Quest();
-    quest.title = title;
-    quest.memberGoal = memberGoal;
+    Quest quest = copyQuest(title, memberGoal);
     quest.sequence = newSequence;
     quest.deadline = deadline;
 
     return quest;
   }
 
-  public void decreaseSequence() {
-    this.sequence -= 1;
-    if (this.sequence <= 0) {
-      throw new CommonException(ErrorCode.INVALID_STATE);
-    }
+  public static Quest copyQuest(String title, MemberGoal memberGoal) {
+    Quest quest = new Quest();
+    quest.title = title;
+    quest.memberGoal = memberGoal;
+    memberGoal.getQuests().add(quest);
+
+    return quest;
   }
 
   public void validateMember(Long memberId) {
     Member member = this.memberGoal.getMember();
     member.validateId(memberId);
-  }
-
-  public int compareWithId(Long questId) {
-    if (this.questId.equals(questId)) {
-      return 0;
-    }
-
-    if (this.questId > questId) {
-      return 1;
-    }
-
-    return -1;
   }
 
   public void update(String title, Boolean isComplete, LocalDate deadline) {
@@ -91,17 +78,5 @@ public class Quest extends BaseTimeEntity {
     if (deadline != null && !deadline.equals(this.deadline)) {
       this.deadline = deadline;
     }
-  }
-
-  public void updateSequence(int sequence) {
-    this.sequence = sequence;
-  }
-
-  public static Quest copyQuest(String title, MemberGoal memberGoal) {
-    Quest quest = new Quest();
-    quest.title = title;
-    quest.memberGoal = memberGoal;
-
-    return quest;
   }
 }

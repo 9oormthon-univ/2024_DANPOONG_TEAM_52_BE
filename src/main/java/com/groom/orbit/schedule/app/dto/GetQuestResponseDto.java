@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.groom.orbit.goal.dao.entity.GoalCategory;
-import com.groom.orbit.goal.dao.entity.Quest;
+import com.groom.orbit.quest.dao.entity.Quest;
 
 public record GetQuestResponseDto(
     Long questId,

@@ -1,3 +1,6 @@
 package com.groom.orbit.goal.app.dto.request;
 
-public record MemberGoalRequestDto(String title, String category) {}
+import java.util.List;
+
+public record MemberGoalRequestDto(
+    String title, String category, List<QuestTitleRequestDto> quests) {}

@@ -1,8 +1,8 @@
-package com.groom.orbit.goal.app.dto.response;
+package com.groom.orbit.quest.app.dto.response;
 
 import java.time.LocalDate;
 
-import com.groom.orbit.goal.dao.entity.Quest;
+import com.groom.orbit.quest.dao.entity.Quest;
 
 public record CreateQuestResponse(
     Long questId, String title, Boolean isComplete, LocalDate deadline, Integer sequence) {

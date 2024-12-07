@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.groom.orbit.goal.dao.entity.GoalCategory;
+import com.groom.orbit.quest.app.dto.response.GetQuestResponseDto;
 
 public record GetMemberGoalResponseDto(
     Long memberGoalId,

@@ -1,4 +1,4 @@
-package com.groom.orbit.goal.controller.query;
+package com.groom.orbit.quest.controller;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.groom.orbit.common.dto.ResponseDto;
-import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
-import com.groom.orbit.goal.app.query.QuestQueryService;
+import com.groom.orbit.quest.app.QuestQueryService;
+import com.groom.orbit.quest.app.dto.response.GetQuestResponseDto;
 
 import lombok.RequiredArgsConstructor;
 

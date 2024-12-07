@@ -1,3 +1,3 @@
-package com.groom.orbit.goal.app.dto.response;
+package com.groom.orbit.quest.app.dto.response;
 
 public record RecommendQuestResponseDto(String title) {}

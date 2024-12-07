@@ -18,8 +18,8 @@ import com.groom.orbit.goal.app.dto.response.GoalSearchDetailResponseDto;
 import com.groom.orbit.goal.app.dto.response.GoalSearchResponseDto;
 import com.groom.orbit.goal.dao.entity.Goal;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
-import com.groom.orbit.goal.dao.entity.Quest;
 import com.groom.orbit.job.app.InterestJobService;
+import com.groom.orbit.quest.dao.entity.Quest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,8 +44,7 @@ public class GoalSearchService {
             .map(Quest::getTitle)
             .toList();
 
-    return new GoalSearchDetailResponseDto(
-        goal.getCategory().getCategory(), goal.getTitle(), questTitles);
+    return new GoalSearchDetailResponseDto(goal.getCategory().name(), goal.getTitle(), questTitles);
   }
 
   private static Goal findGoal(List<MemberGoal> memberGoals) {
@@ -57,17 +56,27 @@ public class GoalSearchService {
 
   public Page<GoalSearchResponseDto> searchGoals(
       Long memberId, String category, List<Long> jobIds, Pageable pageable) {
-    List<Long> memberIds =
-        new ArrayList<>(
-            interestJobService.findMemberInInterestJob(jobIds).stream().distinct().toList());
-    memberIds.remove(memberId);
-    Page<MemberGoal> memberGoals =
-        memberGoalService.findMemberGoalInMemberId(
-            memberIds, category, pageable); // 해당 사용자들의 목표를 조회
+    Page<MemberGoal> memberGoals = findMemberGoal(memberId, category, jobIds, pageable);
 
     return memberGoals.map(
         memberGoal ->
             new GoalSearchResponseDto(
-                memberGoal.getGoal().getGoalId(), memberGoal.getGoal().getTitle()));
+                memberGoal.getGoal().getGoalId(),
+                memberGoal.getGoal().getTitle(),
+                memberGoal.getGoal().getCategory().name(),
+                memberGoal.getGoal().getCount()));
+  }
+
+  private Page<MemberGoal> findMemberGoal(
+      Long memberId, String category, List<Long> jobIds, Pageable pageable) {
+    if (jobIds == null) {
+      return memberGoalService.findMemberGoal(category, pageable);
+    }
+    List<Long> memberIds =
+        new ArrayList<>(
+            interestJobService.findMemberInInterestJob(jobIds).stream().distinct().toList());
+    memberIds.remove(memberId);
+
+    return memberGoalService.findMemberGoalInMemberId(memberIds, category, pageable);
   }
 }

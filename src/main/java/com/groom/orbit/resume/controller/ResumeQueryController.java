@@ -21,7 +21,7 @@ public class ResumeQueryController {
 
   @GetMapping
   public ResponseDto<GetResumeResponseDto> getResume(@AuthMember Long memberId) {
-    return ResponseDto.ok(resumeQueryService.getResume(memberId));
+    return ResponseDto.ok(resumeQueryService.getMyResume(memberId));
   }
 
   @GetMapping("/{otherId}")

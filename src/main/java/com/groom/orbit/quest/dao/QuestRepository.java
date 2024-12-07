@@ -1,4 +1,4 @@
-package com.groom.orbit.goal.dao;
+package com.groom.orbit.quest.dao;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.groom.orbit.goal.dao.entity.Quest;
 import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.quest.dao.entity.Quest;
 
 public interface QuestRepository extends JpaRepository<Quest, Long> {
 

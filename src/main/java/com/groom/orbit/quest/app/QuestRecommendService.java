@@ -1,9 +1,9 @@
-package com.groom.orbit.goal.app.command;
+package com.groom.orbit.quest.app;
 
 import org.springframework.stereotype.Service;
 
 import com.groom.orbit.ai.app.AiService;
-import com.groom.orbit.goal.app.dto.response.RecommendQuestListResponseDto;
+import com.groom.orbit.quest.app.dto.response.RecommendQuestListResponseDto;
 
 import lombok.RequiredArgsConstructor;
 

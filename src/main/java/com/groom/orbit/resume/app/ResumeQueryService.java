@@ -1,5 +1,7 @@
 package com.groom.orbit.resume.app;
 
+import static com.groom.orbit.resume.dao.entity.ResumeCategory.*;
+
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +11,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.groom.orbit.common.exception.CommonException;
-import com.groom.orbit.common.exception.ErrorCode;
 import com.groom.orbit.member.app.MemberQueryService;
 import com.groom.orbit.member.dao.jpa.entity.Member;
 import com.groom.orbit.resume.app.dto.GetOtherResumeResponseDto;
@@ -29,67 +29,60 @@ public class ResumeQueryService {
   private final ResumeRepository resumeRepository;
   private final MemberQueryService memberQueryService;
 
-  public GetResumeResponseDto getResume(Long memberId) {
-
+  public GetResumeResponseDto getMyResume(Long memberId) {
     Map<ResumeCategory, List<ResumeResponseDto>> categorizedResumes =
-        resumeRepository.findAllByMemberId(memberId).stream()
-            .map(ResumeResponseDto::fromResume)
-            .collect(Collectors.groupingBy(ResumeResponseDto::resumeCategory));
+        getCategorizedResume(memberId);
 
     return new GetResumeResponseDto(
-        categorizedResumes.getOrDefault(ResumeCategory.ACADEMY, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.CAREER, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.QUALIFICATION, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.EXPERIENCE, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.ETC, List.of()));
+        categorizedResumes.getOrDefault(ACADEMY, List.of()),
+        categorizedResumes.getOrDefault(CAREER, List.of()),
+        categorizedResumes.getOrDefault(QUALIFICATION, List.of()),
+        categorizedResumes.getOrDefault(EXPERIENCE, List.of()),
+        categorizedResumes.getOrDefault(ETC, List.of()));
   }
 
   public GetOtherResumeResponseDto getOtherResume(Long otherId) {
-
     Member member = memberQueryService.findMember(otherId);
 
-    Map<ResumeCategory, List<ResumeResponseDto>> categorizedResumes =
-        resumeRepository.findAllByMemberId(otherId).stream()
-            .map(ResumeResponseDto::fromResume)
-            .collect(Collectors.groupingBy(ResumeResponseDto::resumeCategory));
+    Map<ResumeCategory, List<ResumeResponseDto>> categorizedResumes = getCategorizedResume(otherId);
 
     return new GetOtherResumeResponseDto(
-        categorizedResumes.getOrDefault(ResumeCategory.ACADEMY, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.CAREER, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.QUALIFICATION, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.EXPERIENCE, List.of()),
-        categorizedResumes.getOrDefault(ResumeCategory.ETC, List.of()),
+        categorizedResumes.getOrDefault(ACADEMY, List.of()),
+        categorizedResumes.getOrDefault(CAREER, List.of()),
+        categorizedResumes.getOrDefault(QUALIFICATION, List.of()),
+        categorizedResumes.getOrDefault(EXPERIENCE, List.of()),
+        categorizedResumes.getOrDefault(ETC, List.of()),
         member.getImageUrl(),
         member.getNickname());
   }
 
-  public Object checkIsResume(Long memberId, Long otherId) {
-
-    Member member = memberQueryService.findMember(otherId);
-
-    if (member.getIsProfile().equals(true)) {
-      return getOtherResume(otherId);
-    } else {
-      if (memberId.equals(otherId)) {
-        return getResume(memberId);
-      } else {
-        throw new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE);
-      }
-    }
+  private Map<ResumeCategory, List<ResumeResponseDto>> getCategorizedResume(Long memberId) {
+    return resumeRepository.findAllByMemberId(memberId).stream()
+        .map(ResumeResponseDto::fromResume)
+        .collect(Collectors.groupingBy(ResumeResponseDto::resumeCategory));
   }
 
+  /** TODO Resume가 없는 사용자 조회시 빈 화면이 나와야할 것 같은데 ?? */
+  public Object checkIsResume(Long memberId, Long otherId) {
+    if (memberId.equals(otherId)) {
+      return getMyResume(memberId);
+    }
+    return getOtherResume(otherId);
+  }
+
+  @Deprecated
   public List<String> convertToResumeStrings(GetResumeResponseDto responseDto) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     Map<ResumeCategory, List<ResumeResponseDto>> categorizedResumes =
         Map.of(
-            ResumeCategory.ACADEMY, responseDto.academyList(),
-            ResumeCategory.CAREER, responseDto.careerList(),
-            ResumeCategory.QUALIFICATION, responseDto.qualificationList(),
-            ResumeCategory.EXPERIENCE, responseDto.experienceList(),
-            ResumeCategory.ETC, responseDto.etcList());
+            ACADEMY, responseDto.academyList(),
+            CAREER, responseDto.careerList(),
+            QUALIFICATION, responseDto.qualificationList(),
+            EXPERIENCE, responseDto.experienceList(),
+            ETC, responseDto.etcList());
 
-    return Arrays.stream(ResumeCategory.values())
+    return Arrays.stream(values())
         .map(
             category -> {
               List<ResumeResponseDto> resumeList =

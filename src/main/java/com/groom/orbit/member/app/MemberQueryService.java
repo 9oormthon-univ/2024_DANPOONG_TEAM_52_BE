@@ -19,9 +19,9 @@ public class MemberQueryService {
 
   private final MemberRepository memberRepository;
 
-  public Member findMember(Long id) {
+  public Member findMember(Long memberId) {
     return memberRepository
-        .findById(id)
+        .findById(memberId)
         .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMBER));
   }
 

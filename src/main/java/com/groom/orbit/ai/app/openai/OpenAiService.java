@@ -16,8 +16,8 @@ import com.groom.orbit.ai.app.AiService;
 import com.groom.orbit.ai.app.VectorService;
 import com.groom.orbit.ai.dao.vector.Vector;
 import com.groom.orbit.goal.app.dto.response.RecommendGoalListResponseDto;
-import com.groom.orbit.goal.app.dto.response.RecommendQuestListResponseDto;
 import com.groom.orbit.member.app.dto.response.GetFeedbackResponseDto;
+import com.groom.orbit.quest.app.dto.response.RecommendQuestListResponseDto;
 import com.groom.orbit.resume.app.dto.GetResumeResponseDto;
 import com.groom.orbit.resume.app.dto.ResumeResponseDto;
 

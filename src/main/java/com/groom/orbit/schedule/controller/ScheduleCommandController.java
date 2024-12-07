@@ -28,12 +28,13 @@ public class ScheduleCommandController {
       @AuthMember Long memberId,
       @PathVariable Long scheduleId,
       @RequestBody ScheduleRequestDto scheduleRequestDto) {
-    return ResponseDto.ok(scheduleCommandService.updateSchedule(scheduleId, scheduleRequestDto));
+    return ResponseDto.ok(
+        scheduleCommandService.updateSchedule(memberId, scheduleId, scheduleRequestDto));
   }
 
   @DeleteMapping("/{scheduleId}")
   public ResponseDto<CommonSuccessDto> deleteSchedule(
       @AuthMember Long memberId, @PathVariable Long scheduleId) {
-    return ResponseDto.ok(scheduleCommandService.deleteSchedule(scheduleId));
+    return ResponseDto.ok(scheduleCommandService.deleteSchedule(memberId, scheduleId));
   }
 }

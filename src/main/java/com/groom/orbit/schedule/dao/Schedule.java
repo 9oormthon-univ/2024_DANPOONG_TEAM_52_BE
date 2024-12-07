@@ -12,8 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.groom.orbit.member.dao.jpa.entity.Member;
-import com.groom.orbit.schedule.app.dto.ScheduleRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicUpdate
 @Table(name = "schedule")
 public class Schedule {
 
@@ -45,9 +47,15 @@ public class Schedule {
   @JoinColumn(name = "member_id")
   private Member member;
 
-  public void updateSchedule(ScheduleRequestDto requestDto) {
-    this.content = requestDto.content();
-    this.startDate = requestDto.startDate();
-    this.endDate = requestDto.endDate();
+  public void update(String content, LocalDate startDate, LocalDate endDate) {
+    if (content != null) {
+      this.content = content;
+    }
+    if (startDate != null) {
+      this.startDate = startDate;
+    }
+    if (endDate != null) {
+      this.endDate = endDate;
+    }
   }
 }

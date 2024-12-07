@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.groom.orbit.common.annotation.AuthMember;
 import com.groom.orbit.common.dto.CommonSuccessDto;
 import com.groom.orbit.common.dto.ResponseDto;
-import com.groom.orbit.resume.app.ResumeCommendService;
+import com.groom.orbit.resume.app.ResumeCommandService;
 import com.groom.orbit.resume.app.dto.ResumeRequestDto;
 import com.groom.orbit.resume.app.dto.ResumeResponseDto;
 
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/resume")
 public class ResumeCommandController {
 
-  private final ResumeCommendService resumeCommandService;
+  private final ResumeCommandService resumeCommandService;
 
   @PostMapping()
   public ResponseDto<CommonSuccessDto> createResume(
@@ -29,7 +29,7 @@ public class ResumeCommandController {
       @AuthMember Long memberId,
       @PathVariable Long resumeId,
       @RequestBody ResumeRequestDto requestDto) {
-    return ResponseDto.ok(resumeCommandService.updateResume(resumeId, requestDto));
+    return ResponseDto.ok(resumeCommandService.updateResume(memberId, resumeId, requestDto));
   }
 
   @DeleteMapping("/{resumeId}")

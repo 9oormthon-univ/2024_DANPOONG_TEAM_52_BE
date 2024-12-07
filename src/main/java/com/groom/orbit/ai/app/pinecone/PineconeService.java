@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.openapitools.inference.client.model.Embedding;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.google.protobuf.Struct;
@@ -56,6 +57,7 @@ public class PineconeService implements VectorService {
     return similarVectors.stream().toList();
   }
 
+  @Async
   @Override
   public void save(CreateVectorDto dto) {
     Vector vector =
@@ -73,6 +75,7 @@ public class PineconeService implements VectorService {
     saveVector(vector, dto.memberId());
   }
 
+  @Async
   @Override
   public void updateGoal(UpdateVectorGoalDto dto) {
     Vector vector =
@@ -83,6 +86,7 @@ public class PineconeService implements VectorService {
     saveVector(vector, dto.memberId());
   }
 
+  @Async
   @Override
   public void updateQuest(UpdateVectorQuestDto dto) {
     Vector vector =

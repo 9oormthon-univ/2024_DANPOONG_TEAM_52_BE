@@ -20,16 +20,16 @@ import com.groom.orbit.goal.app.command.GoalCommandService;
 import com.groom.orbit.goal.app.dto.request.MemberGoalRequestDto;
 import com.groom.orbit.goal.app.dto.request.UpdateMemberGoalSequenceRequestDto;
 import com.groom.orbit.goal.app.dto.response.GetMemberGoalResponseDto;
-import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
 import com.groom.orbit.goal.app.query.GoalQueryService;
 import com.groom.orbit.goal.dao.MemberGoalRepository;
-import com.groom.orbit.goal.dao.QuestRepository;
 import com.groom.orbit.goal.dao.entity.Goal;
 import com.groom.orbit.goal.dao.entity.GoalCategory;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
-import com.groom.orbit.goal.dao.entity.Quest;
 import com.groom.orbit.member.app.MemberQueryService;
 import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.quest.app.dto.response.GetQuestResponseDto;
+import com.groom.orbit.quest.dao.QuestRepository;
+import com.groom.orbit.quest.dao.entity.Quest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +44,13 @@ public class MemberGoalService {
   private final GoalCommandService goalCommandService;
   private final VectorService vectorService;
   private final QuestRepository questRepository;
+
+  @Transactional(readOnly = true)
+  public MemberGoal findByMemberIdAndId(Long memberId, Long memberGoalId) {
+    return memberGoalRepository
+        .findById(memberId, memberGoalId)
+        .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMBER_GOAL));
+  }
 
   @Transactional(readOnly = true)
   public MemberGoal findMemberGoal(Long memberId, Long goalId) {
@@ -74,15 +81,11 @@ public class MemberGoalService {
 
   public GetMemberGoalResponseDto createGoal(Long memberId, MemberGoalRequestDto dto) {
     Member member = memberQueryService.findMember(memberId);
-    Goal goal = getGoal(dto.title(), dto.category());
+    Goal goal = findGoal(dto.title(), dto.category());
+    int memberGoalSize = memberGoalRepository.findAllByMemberIdAndIsCompleteFalse(memberId).size();
 
-    MemberGoal memberGoal = MemberGoal.create(member, goal);
-    goal.increaseCount();
-
-    int MemberGoalLen = memberGoalRepository.findAllByMemberIdAndIsCompleteFalse(memberId).size();
-
-    memberGoal.setSequence(MemberGoalLen + 1);
-
+    MemberGoal memberGoal = MemberGoal.create(member, goal, memberGoalSize);
+    dto.quests().forEach(quest -> Quest.copyQuest(quest.title(), memberGoal));
     MemberGoal savedMemberGoal = memberGoalRepository.save(memberGoal);
     saveVector(memberId, goal);
 
@@ -118,7 +121,7 @@ public class MemberGoalService {
   public CommonSuccessDto updateMemberGoal(
       Long memberId, Long memberGoalId, MemberGoalRequestDto dto) {
     MemberGoal memberGoal = findMemberGoal(memberGoalId);
-    Goal goal = getGoal(dto.title(), dto.category());
+    Goal goal = findGoal(dto.title(), dto.category());
 
     memberGoal.validateMember(memberId);
     updateVector(memberId, dto, memberGoal);
@@ -140,7 +143,7 @@ public class MemberGoalService {
     vectorService.updateGoal(updateDto);
   }
 
-  private Goal getGoal(String title, String category) {
+  private Goal findGoal(String title, String category) {
     Optional<Goal> findGoal = goalQueryService.findGoalByTitleAndCategory(title, category);
 
     return findGoal.orElseGet(() -> goalCommandService.createGoal(title, category));
@@ -295,8 +298,28 @@ public class MemberGoalService {
     return memberGoalRepository.findAllWithQuestsByGoalId(goalId);
   }
 
+  /** 처음부터 jobIds를 선택하지 않은 경우 */
+  public Page<MemberGoal> findMemberGoal(String category, Pageable pageable) {
+    String order =
+        pageable.getSort().stream().findFirst().map(Order::getProperty).orElseGet(() -> "latest");
+    Pageable customPageable =
+        Pageable.ofSize(pageable.getPageSize()).withPage(pageable.getPageNumber());
+    GoalCategory goalCategory = GoalCategory.from(category);
+
+    if (order.equals("latest")) {
+      return memberGoalRepository.findByCategoryCreatedAtDesc(goalCategory, customPageable);
+    }
+    return memberGoalRepository.findByCategoryCountAtDesc(goalCategory, customPageable);
+  }
+
+  /** TODO 동적 쿼리 처리 -> querydsl */
   public Page<MemberGoal> findMemberGoalInMemberId(
       List<Long> memberIds, String category, Pageable pageable) {
+
+    if (memberIds.isEmpty()) {
+      return Page.empty(pageable);
+    }
+
     String order =
         pageable.getSort().stream().findFirst().map(Order::getProperty).orElseGet(() -> "latest");
 

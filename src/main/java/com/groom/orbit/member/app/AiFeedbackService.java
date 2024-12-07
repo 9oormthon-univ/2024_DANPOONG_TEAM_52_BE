@@ -23,7 +23,7 @@ public class AiFeedbackService {
 
   public GetFeedbackResponseDto getFeedback(Long memberId) {
     String interestJobs = getInterestJobs(memberId);
-    GetResumeResponseDto dto = resumeQueryService.getResume(memberId);
+    GetResumeResponseDto dto = resumeQueryService.getMyResume(memberId);
 
     return aiService.getMemberFeedback(interestJobs, dto);
   }

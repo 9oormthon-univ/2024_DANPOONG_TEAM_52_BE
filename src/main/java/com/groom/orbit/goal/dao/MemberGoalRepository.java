@@ -84,4 +84,23 @@ public interface MemberGoalRepository extends JpaRepository<MemberGoal, Long> {
       @Param("member") Member member,
       @Param("yesterdayStart") LocalDateTime yesterdayStart,
       @Param("yesterdayEnd") LocalDateTime yesterdayEnd);
+
+  @Query(
+      "select mg from MemberGoal mg"
+          + " join fetch mg.goal g"
+          + " join mg.member m"
+          + " where (:category is null or g.category = :category)"
+          + " group by g.goalId"
+          + " order by g.createdAt desc")
+  Page<MemberGoal> findByCategoryCreatedAtDesc(
+      @Param("category") GoalCategory category, Pageable pageable);
+
+  @Query(
+      "select mg from MemberGoal mg"
+          + " join fetch mg.goal g"
+          + " where (:category is null or g.category = :category)"
+          + " group by g.goalId"
+          + " order by g.count desc")
+  Page<MemberGoal> findByCategoryCountAtDesc(
+      @Param("category") GoalCategory category, Pageable pageable);
 }
