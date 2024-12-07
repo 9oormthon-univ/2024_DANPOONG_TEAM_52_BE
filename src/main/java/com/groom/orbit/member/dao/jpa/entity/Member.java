@@ -1,5 +1,6 @@
 package com.groom.orbit.member.dao.jpa.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,10 @@ public class Member {
   @Setter
   @Column(name = "fcm_token", length = 5000, columnDefinition = "TEXT")
   private String fcmToken;
+
+  @Setter
+  @Column(name = "last_login")
+  private LocalDate lastLogin;
 
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<InterestJob> interestJobs = new ArrayList<>();

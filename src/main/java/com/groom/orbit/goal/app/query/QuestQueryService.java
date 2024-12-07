@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
+import com.groom.orbit.fcm.FcmService;
 import com.groom.orbit.goal.app.MemberGoalService;
 import com.groom.orbit.goal.app.dto.response.GetQuestResponseDto;
 import com.groom.orbit.goal.dao.QuestRepository;
@@ -25,6 +26,7 @@ public class QuestQueryService {
 
   private final QuestRepository questRepository;
   private final MemberGoalService memberGoalService;
+  private final FcmService fcmService;
 
   public Quest findQuest(Long questId) {
     return questRepository

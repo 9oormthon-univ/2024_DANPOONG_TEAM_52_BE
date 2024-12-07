@@ -1,5 +1,6 @@
 package com.groom.orbit.auth.app;
 
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,7 @@ public class AuthService {
   public LoginResponseDto login(OAuthLoginParams params) {
     OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
     AuthMember authMember = findOrCreateMember(oAuthInfoResponse);
+    authMember.setLastLogin(LocalDate.now());
     return LoginResponseDto.fromLogin(
         authTokensGenerator.generate(authMember.getId()), authMember.getKakaoNickname());
   }

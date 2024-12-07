@@ -1,13 +1,12 @@
 package com.groom.orbit.auth.dao.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity(name = "auth_member")
 @Table(name = "member")
@@ -32,4 +31,8 @@ public class AuthMember {
   @Column(name = "image_url")
   @Builder.Default
   private String imageUrl = "";
+
+  @Setter
+  @Column(name = "last_login")
+  private LocalDate lastLogin;
 }
