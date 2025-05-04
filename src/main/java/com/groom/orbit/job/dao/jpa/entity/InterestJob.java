@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.member.member.dao.jpa.entity.Member;
 
 import lombok.Getter;
 

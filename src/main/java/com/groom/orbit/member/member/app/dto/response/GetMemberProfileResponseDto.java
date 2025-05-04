@@ -1,0 +1,24 @@
+package com.groom.orbit.member.member.app.dto.response;
+
+import com.groom.orbit.member.member.dao.jpa.entity.Member;
+
+public record GetMemberProfileResponseDto(
+    Long memberId,
+    String imageUrl,
+    String nickname,
+    String knownPrompt,
+    String helpPrompt,
+    Boolean isNotification,
+    Boolean isProfile) {
+
+  public static GetMemberProfileResponseDto fromMember(Member member) {
+    return new GetMemberProfileResponseDto(
+        member.getId(),
+        member.getImageUrl(),
+        member.getNickname(),
+        member.getKnownPrompt(),
+        member.getHelpPrompt(),
+        member.getIsNotification(),
+        member.getIsProfile());
+  }
+}

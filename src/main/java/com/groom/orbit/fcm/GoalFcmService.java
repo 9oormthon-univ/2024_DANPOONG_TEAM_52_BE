@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.groom.orbit.goal.dao.MemberGoalRepository;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
-import com.groom.orbit.member.dao.jpa.MemberRepository;
-import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.member.member.dao.jpa.MemberRepository;
+import com.groom.orbit.member.member.dao.jpa.entity.Member;
 
 import lombok.RequiredArgsConstructor;
 

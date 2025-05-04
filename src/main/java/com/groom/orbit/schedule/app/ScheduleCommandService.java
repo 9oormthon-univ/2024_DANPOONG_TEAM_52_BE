@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.groom.orbit.common.dto.CommonSuccessDto;
-import com.groom.orbit.member.app.MemberQueryService;
-import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.member.member.app.MemberQueryService;
+import com.groom.orbit.member.member.dao.jpa.entity.Member;
 import com.groom.orbit.schedule.app.dto.ScheduleRequestDto;
 import com.groom.orbit.schedule.dao.Schedule;
 import com.groom.orbit.schedule.dao.ScheduleRepository;

@@ -14,9 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.groom.orbit.member.app.MemberQueryService;
-import com.groom.orbit.member.dao.jpa.MemberRepository;
-import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.member.member.app.MemberQueryService;
+import com.groom.orbit.member.member.dao.jpa.MemberRepository;
+import com.groom.orbit.member.member.dao.jpa.entity.Member;
 
 import lombok.extern.slf4j.Slf4j;
 

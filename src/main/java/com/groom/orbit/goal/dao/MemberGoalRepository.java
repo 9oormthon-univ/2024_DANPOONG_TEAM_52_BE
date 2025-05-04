@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.groom.orbit.goal.dao.entity.GoalCategory;
 import com.groom.orbit.goal.dao.entity.MemberGoal;
-import com.groom.orbit.member.dao.jpa.entity.Member;
+import com.groom.orbit.member.member.dao.jpa.entity.Member;
 
 public interface MemberGoalRepository extends JpaRepository<MemberGoal, Long> {
 

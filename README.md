@@ -1,0 +1,109 @@
+### 프로젝트 설명
+구름톤 유니브3기에서 진행한 해커톤, 단풍톤에서 진행한 프로젝트입니다.
+청년 사회 문제를 주제로 진행된 해커톤에서, 청년들이 목표를 설정하는 데 어려움을 겪는 점에 주목하여, 목표와 퀘스트를 추천하고 로드맵을 제시하는 서비스를 개발하였습니다.
+
+### 프로젝트 구조
+```
+├── gradle
+│   └── wrapper
+├── script
+├── sql
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── groom
+    │   │           └── orbit
+    │   │               ├── S3
+    │   │               ├── ai
+    │   │               │   ├── app
+    │   │               │   │   ├── dto
+    │   │               │   │   ├── openai
+    │   │               │   │   ├── pinecone
+    │   │               │   │   └── util
+    │   │               │   └── dao
+    │   │               │       ├── pinecone
+    │   │               │       └── vector
+    │   │               ├── auth
+    │   │               │   ├── app
+    │   │               │   │   └── dto
+    │   │               │   ├── controller
+    │   │               │   └── dao
+    │   │               │       └── entity
+    │   │               ├── common
+    │   │               │   ├── annotation
+    │   │               │   ├── controller
+    │   │               │   ├── dao
+    │   │               │   │   └── entity
+    │   │               │   ├── dto
+    │   │               │   └── exception
+    │   │               ├── config
+    │   │               │   ├── ai
+    │   │               │   ├── async
+    │   │               │   ├── dao
+    │   │               │   ├── redis
+    │   │               │   ├── security
+    │   │               │   │   ├── domain
+    │   │               │   │   ├── filter
+    │   │               │   │   ├── handler
+    │   │               │   │   ├── kakao
+    │   │               │   │   ├── oAuth
+    │   │               │   │   └── service
+    │   │               │   └── web
+    │   │               ├── fcm
+    │   │               ├── goal
+    │   │               │   ├── app
+    │   │               │   │   ├── command
+    │   │               │   │   ├── dto
+    │   │               │   │   │   ├── request
+    │   │               │   │   │   └── response
+    │   │               │   │   ├── query
+    │   │               │   │   └── util
+    │   │               │   ├── controller
+    │   │               │   │   ├── command
+    │   │               │   │   └── query
+    │   │               │   └── dao
+    │   │               │       └── entity
+    │   │               ├── job
+    │   │               │   ├── app
+    │   │               │   │   └── dto
+    │   │               │   ├── controller
+    │   │               │   └── dao
+    │   │               │       └── jpa
+    │   │               │           └── entity
+    │   │               ├── member
+    │   │               │   ├── app
+    │   │               │   │   └── dto
+    │   │               │   │       ├── request
+    │   │               │   │       └── response
+    │   │               │   ├── controller
+    │   │               │   └── dao
+    │   │               │       └── jpa
+    │   │               │           └── entity
+    │   │               ├── quest
+    │   │               │   ├── app
+    │   │               │   │   └── dto
+    │   │               │   │       ├── request
+    │   │               │   │       └── response
+    │   │               │   ├── controller
+    │   │               │   └── dao
+    │   │               │       └── entity
+    │   │               ├── resume
+    │   │               │   ├── app
+    │   │               │   │   └── dto
+    │   │               │   ├── controller
+    │   │               │   └── dao
+    │   │               │       └── entity
+    │   │               └── schedule
+    │   │                   ├── app
+    │   │                   │   └── dto
+    │   │                   ├── controller
+    │   │                   └── dao
+    │   └── resources
+    │       └── templates
+    └── test
+        └── java
+            └── com
+                └── groom
+                    └── orbit
+```

@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.groom.orbit.common.exception.CommonException;
 import com.groom.orbit.common.exception.ErrorCode;
-import com.groom.orbit.config.security.JwtTokenProvider;
+import com.groom.orbit.member.auth.app.provider.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
